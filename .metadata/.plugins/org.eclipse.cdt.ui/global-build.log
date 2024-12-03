@@ -1,0 +1,305 @@
+20:29:35 **** Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-gcc "../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.d" -MT"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal.o"
+arm-none-eabi-gcc "../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cortex.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cortex.d" -MT"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cortex.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_cortex.o"
+arm-none-eabi-gcc "../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_dma.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_dma.d" -MT"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_dma.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_dma.o"
+arm-none-eabi-gcc "../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.d" -MT"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_exti.o"
+arm-none-eabi-gcc "../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash.d" -MT"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash.o"
+arm-none-eabi-gcc "../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash_ex.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash_ex.d" -MT"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash_ex.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_gpio.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_gpio.d" -MT"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_gpio.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_gpio.o"
+arm-none-eabi-gcc "../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c.d" -MT"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c.o"
+arm-none-eabi-gcc "../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c_ex.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c_ex.d" -MT"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c_ex.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_i2c_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr.d" -MT"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr.o"
+arm-none-eabi-gcc "../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr_ex.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr_ex.d" -MT"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr_ex.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.d" -MT"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc.o"
+arm-none-eabi-gcc "../Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc_ex.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc_ex.d" -MT"Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc_ex.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_rcc_ex.o"
+arm-none-eabi-gcc -mcpu=cortex-m0 -g3 -DDEBUG -c -x assembler-with-cpp -MMD -MP -MF"Core/Startup/startup_stm32f031k6tx.d" -MT"Core/Startup/startup_stm32f031k6tx.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Startup/startup_stm32f031k6tx.o" "../Core/Startup/startup_stm32f031k6tx.s"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32f0xx_hal_msp.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32f0xx_hal_msp.d" -MT"Core/Src/stm32f0xx_hal_msp.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f0xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f0xx_it.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32f0xx_it.d" -MT"Core/Src/stm32f0xx_it.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f0xx_it.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:99:29: error: 'GPIO' undeclared (first use in this function); did you mean 'GPIOF'?
+   99 |           HAL_GPIO_WritePin(GPIO, GPIO_PIN_13, 1);
+      |                             ^~~~
+      |                             GPIOF
+../Core/Src/main.c:99:29: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j16 all" terminated with exit code 2. Build might be incomplete.
+20:31:08 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/syscalls.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/syscalls.d" -MT"Core/Src/syscalls.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/syscalls.o"
+arm-none-eabi-gcc "../Core/Src/sysmem.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/sysmem.d" -MT"Core/Src/sysmem.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/sysmem.o"
+arm-none-eabi-gcc "../Core/Src/system_stm32f0xx.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/system_stm32f0xx.d" -MT"Core/Src/system_stm32f0xx.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/system_stm32f0xx.o"
+arm-none-eabi-gcc -o "Testing.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\_Dev\STM32\Testing\STM32F031K6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Testing.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Testing.elf
+ 
+arm-none-eabi-size  Testing.elf 
+arm-none-eabi-objdump -h -S Testing.elf  > "Testing.list"
+   text	   data	    bss	    dec	    hex	filename
+   4728	     12	   1572	   6312	   18a8	Testing.elf
+Finished building: default.size.stdout
+ 
+Finished building: Testing.list
+ 
+20:35:48 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:100:11: warning: implicit declaration of function 'HAL_DELAY'; did you mean 'HAL_Delay'? [-Wimplicit-function-declaration]
+  100 |           HAL_DELAY(1000);
+      |           ^~~~~~~~~
+      |           HAL_Delay
+arm-none-eabi-gcc -o "Testing.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\_Dev\STM32\Testing\STM32F031K6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Testing.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/main.o: in function `main':
+C:/_Dev/STM32/Testing/Debug/../Core/Src/main.c:100: undefined reference to `HAL_DELAY'
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: C:/_Dev/STM32/Testing/Debug/../Core/Src/main.c:102: undefined reference to `HAL_DELAY'
+collect2.exe: error: ld returned 1 exit status
+make: *** [makefile:64: Testing.elf] Error 1
+"make -j16 all" terminated with exit code 2. Build might be incomplete.
+20:36:07 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Testing.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\_Dev\STM32\Testing\STM32F031K6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Testing.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Testing.elf
+ 
+arm-none-eabi-size  Testing.elf 
+arm-none-eabi-objdump -h -S Testing.elf  > "Testing.list"
+   text	   data	    bss	    dec	    hex	filename
+   4836	     12	   1572	   6420	   1914	Testing.elf
+Finished building: default.size.stdout
+ 
+Finished building: Testing.list
+ 
+20:36:10 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-size  Testing.elf 
+   text	   data	    bss	    dec	    hex	filename
+   4836	     12	   1572	   6420	   1914	Testing.elf
+Finished building: default.size.stdout
+ 
+20:39:18 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32f0xx_hal_msp.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32f0xx_hal_msp.d" -MT"Core/Src/stm32f0xx_hal_msp.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f0xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f0xx_it.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32f0xx_it.d" -MT"Core/Src/stm32f0xx_it.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f0xx_it.o"
+arm-none-eabi-gcc -o "Testing.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\_Dev\STM32\Testing\STM32F031K6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Testing.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Testing.elf
+ 
+arm-none-eabi-size  Testing.elf 
+arm-none-eabi-objdump -h -S Testing.elf  > "Testing.list"
+   text	   data	    bss	    dec	    hex	filename
+   4712	     12	   1572	   6296	   1898	Testing.elf
+Finished building: default.size.stdout
+ 
+Finished building: Testing.list
+ 
+20:39:26 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-size  Testing.elf 
+   text	   data	    bss	    dec	    hex	filename
+   4712	     12	   1572	   6296	   1898	Testing.elf
+Finished building: default.size.stdout
+ 
+20:40:03 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:101:11: warning: implicit declaration of function 'HAL_GPIO_Writepin'; did you mean 'HAL_GPIO_WritePin'? [-Wimplicit-function-declaration]
+  101 |           HAL_GPIO_Writepin()
+      |           ^~~~~~~~~~~~~~~~~
+      |           HAL_GPIO_WritePin
+../Core/Src/main.c:101:30: error: expected ';' before '}' token
+  101 |           HAL_GPIO_Writepin()
+      |                              ^
+      |                              ;
+  102 |   }
+      |   ~                           
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j16 all" terminated with exit code 2. Build might be incomplete.
+20:40:41 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:101:29: error: 'GPIOx' undeclared (first use in this function); did you mean 'GPIOF'?
+  101 |           HAL_GPIO_WritePin(GPIOx, GPIO_Pin_3, 1);
+      |                             ^~~~~
+      |                             GPIOF
+../Core/Src/main.c:101:29: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c:101:36: error: 'GPIO_Pin_3' undeclared (first use in this function); did you mean 'GPIO_PIN_3'?
+  101 |           HAL_GPIO_WritePin(GPIOx, GPIO_Pin_3, 1);
+      |                                    ^~~~~~~~~~
+      |                                    GPIO_PIN_3
+../Core/Src/main.c:103:11: error: 'HAL_GPIO' undeclared (first use in this function)
+  103 |           HAL_GPIO
+      |           ^~~~~~~~
+../Core/Src/main.c:103:19: error: expected ';' before '}' token
+  103 |           HAL_GPIO
+      |                   ^
+      |                   ;
+  104 |   }
+      |   ~                
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j16 all" terminated with exit code 2. Build might be incomplete.
+20:41:02 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:101:36: error: 'GPIO_Pin_3' undeclared (first use in this function); did you mean 'GPIO_PIN_3'?
+  101 |           HAL_GPIO_WritePin(GPIOC, GPIO_Pin_3, 0);
+      |                                    ^~~~~~~~~~
+      |                                    GPIO_PIN_3
+../Core/Src/main.c:101:36: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j16 all" terminated with exit code 2. Build might be incomplete.
+20:41:15 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:101:36: error: 'GPIO_P' undeclared (first use in this function); did you mean 'GPIOF'?
+  101 |           HAL_GPIO_WritePin(GPIOC, GPIO_P, 0);
+      |                                    ^~~~~~
+      |                                    GPIOF
+../Core/Src/main.c:101:36: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c:103:36: error: 'GPIO_Pin_3' undeclared (first use in this function); did you mean 'GPIO_PIN_3'?
+  103 |           HAL_GPIO_WritePin(GPIOC, GPIO_Pin_3, 1);
+      |                                    ^~~~~~~~~~
+      |                                    GPIO_PIN_3
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j16 all" terminated with exit code 2. Build might be incomplete.
+20:41:23 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Testing.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\_Dev\STM32\Testing\STM32F031K6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Testing.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Testing.elf
+ 
+arm-none-eabi-size  Testing.elf 
+arm-none-eabi-objdump -h -S Testing.elf  > "Testing.list"
+   text	   data	    bss	    dec	    hex	filename
+   4832	     12	   1572	   6416	   1910	Testing.elf
+Finished building: default.size.stdout
+ 
+Finished building: Testing.list
+ 
+20:41:26 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-size  Testing.elf 
+   text	   data	    bss	    dec	    hex	filename
+   4832	     12	   1572	   6416	   1910	Testing.elf
+Finished building: default.size.stdout
+ 
+20:44:25 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Testing.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\_Dev\STM32\Testing\STM32F031K6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Testing.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Testing.elf
+ 
+arm-none-eabi-size  Testing.elf 
+arm-none-eabi-objdump -h -S Testing.elf  > "Testing.list"
+   text	   data	    bss	    dec	    hex	filename
+   4832	     12	   1572	   6416	   1910	Testing.elf
+Finished building: default.size.stdout
+ 
+Finished building: Testing.list
+ 
+20:44:27 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-size  Testing.elf 
+   text	   data	    bss	    dec	    hex	filename
+   4832	     12	   1572	   6416	   1910	Testing.elf
+Finished building: default.size.stdout
+ 
+20:57:47 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32f0xx_hal_msp.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32f0xx_hal_msp.d" -MT"Core/Src/stm32f0xx_hal_msp.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f0xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f0xx_it.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32f0xx_it.d" -MT"Core/Src/stm32f0xx_it.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f0xx_it.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:101:11: warning: implicit declaration of function 'HAL_GPIO_Toggle'; did you mean 'HAL_GPIO_TogglePin'? [-Wimplicit-function-declaration]
+  101 |           HAL_GPIO_Toggle(LED1_GPIO_Port, LED1);
+      |           ^~~~~~~~~~~~~~~
+      |           HAL_GPIO_TogglePin
+../Core/Src/main.c:101:43: error: 'LED1' undeclared (first use in this function)
+  101 |           HAL_GPIO_Toggle(LED1_GPIO_Port, LED1);
+      |                                           ^~~~
+../Core/Src/main.c:101:43: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j16 all" terminated with exit code 2. Build might be incomplete.
+20:58:13 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:101:11: warning: implicit declaration of function 'HAL_GPIO_Toggle'; did you mean 'HAL_GPIO_TogglePin'? [-Wimplicit-function-declaration]
+  101 |           HAL_GPIO_Toggle(LED1_GPIO_Port, LED1_Pin);
+      |           ^~~~~~~~~~~~~~~
+      |           HAL_GPIO_TogglePin
+arm-none-eabi-gcc -o "Testing.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\_Dev\STM32\Testing\STM32F031K6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Testing.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/main.o: in function `main':
+C:/_Dev/STM32/Testing/Debug/../Core/Src/main.c:101: undefined reference to `HAL_GPIO_Toggle'
+collect2.exe: error: ld returned 1 exit status
+make: *** [makefile:64: Testing.elf] Error 1
+"make -j16 all" terminated with exit code 2. Build might be incomplete.
+20:58:28 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Testing.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\_Dev\STM32\Testing\STM32F031K6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Testing.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Testing.elf
+ 
+arm-none-eabi-size  Testing.elf 
+arm-none-eabi-objdump -h -S Testing.elf  > "Testing.list"
+   text	   data	    bss	    dec	    hex	filename
+   4860	     12	   1572	   6444	   192c	Testing.elf
+Finished building: default.size.stdout
+ 
+Finished building: Testing.list
+ 
+20:58:30 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-size  Testing.elf 
+   text	   data	    bss	    dec	    hex	filename
+   4860	     12	   1572	   6444	   192c	Testing.elf
+Finished building: default.size.stdout
+ 
+21:02:21 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32f0xx_hal_msp.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32f0xx_hal_msp.d" -MT"Core/Src/stm32f0xx_hal_msp.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f0xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f0xx_it.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32f0xx_it.d" -MT"Core/Src/stm32f0xx_it.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/stm32f0xx_it.o"
+arm-none-eabi-gcc -o "Testing.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\_Dev\STM32\Testing\STM32F031K6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Testing.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Testing.elf
+ 
+arm-none-eabi-size  Testing.elf 
+arm-none-eabi-objdump -h -S Testing.elf  > "Testing.list"
+   text	   data	    bss	    dec	    hex	filename
+   4960	     12	   1572	   6544	   1990	Testing.elf
+Finished building: default.size.stdout
+ 
+Finished building: Testing.list
+ 
+21:03:44 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:101:37: error: 'GPIO_Pin_3' undeclared (first use in this function); did you mean 'GPIO_PIN_3'?
+  101 |           HAL_GPIO_TogglePin(GPIOB, GPIO_Pin_3);
+      |                                     ^~~~~~~~~~
+      |                                     GPIO_PIN_3
+../Core/Src/main.c:101:37: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [Core/Src/subdir.mk:34: Core/Src/main.o] Error 1
+"make -j16 all" terminated with exit code 2. Build might be incomplete.
+21:03:58 **** Incremental Build of configuration Debug for project Testing ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F031x6 -c -I../Core/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc -I../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F0xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Testing.elf" @"objects.list"   -mcpu=cortex-m0 -T"C:\_Dev\STM32\Testing\STM32F031K6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Testing.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Testing.elf
+ 
+arm-none-eabi-size  Testing.elf 
+arm-none-eabi-objdump -h -S Testing.elf  > "Testing.list"
+   text	   data	    bss	    dec	    hex	filename
+   4960	     12	   1572	   6544	   1990	Testing.elf
+Finished building: default.size.stdout
+ 
+Finished building: Testing.list
+ 
