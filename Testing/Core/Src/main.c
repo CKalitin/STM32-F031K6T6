@@ -208,15 +208,15 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, RS_Pin|E_Pin|D4_Pin|D5_Pin
-                          |D6_Pin|D7_Pin, GPIO_PIN_RESET);
+                          |D6_Pin|D7_Pin|POWER_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : RS_Pin E_Pin D4_Pin D5_Pin
-                           D6_Pin D7_Pin */
+                           D6_Pin D7_Pin POWER_Pin */
   GPIO_InitStruct.Pin = RS_Pin|E_Pin|D4_Pin|D5_Pin
-                          |D6_Pin|D7_Pin;
+                          |D6_Pin|D7_Pin|POWER_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -236,20 +236,48 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 static void LCD_Init(){
+	HAL_GPIO_WritePin(POWER_GPIO_Port, POWER_Pin, 1);
 	HAL_Delay(100);
 
 	// Set to 4-bit mode
 	// Because this command is only 4 bits (and not two pulses of 4 bits to get 8 in total), it is done manually
+	/*HAL_GPIO_WritePin(RS_GPIO_Port, RS_Pin, 0);
+	HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, 0);
+	HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, 0);
+	HAL_GPIO_WritePin(D6_GPIO_Port, D6_Pin, 0);
+	HAL_GPIO_WritePin(D7_GPIO_Port, D7_Pin, 0);
+	LCD_E_Pulse();
+
 	HAL_GPIO_WritePin(RS_GPIO_Port, RS_Pin, 0);
 	HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, 0);
 	HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, 1);
 	HAL_GPIO_WritePin(D6_GPIO_Port, D6_Pin, 0);
 	HAL_GPIO_WritePin(D7_GPIO_Port, D7_Pin, 0);
 	LCD_E_Pulse();
+	*/
+
+	// Start up functions:
+	// 1. 4-bit mode 0x02, 2.
+
+	LCD_Send(0, 0b00000010); // Set to 4-bit operation
 
 	LCD_Send(0, 0b00100001); // Set font to 0,0
 	LCD_Send(0, 0b00001110); // Turn on display and cursor appears
 	LCD_Send(0, 0b00000110); // Increase address by one, shift cursor to right when writing, display has no shift
+
+	LCD_Send(1, 0b01010111); // W
+	LCD_Send(1, 0b01001111); // O
+	LCD_Send(1, 0b01010010); // R
+	LCD_Send(1, 0b01001011); // K
+
+	LCD_Send(1, 0b00100000); // Space
+
+	LCD_Send(1, 0b01001000); // H
+	LCD_Send(1, 0b01000001); // A
+	LCD_Send(1, 0b01010010); // R
+	LCD_Send(1, 0b01000100); // D
+	LCD_Send(1, 0b01000101); // E
+	LCD_Send(1, 0b01010010); // R
 
 	LCD_Send(1, 0b01010111); // W
 	LCD_Send(1, 0b01001111); // O
@@ -297,9 +325,9 @@ static void LCD_E_Pulse() {
 	// Operation enable signal. Falling edge triggered.
 	// The display reads in the values from the data pins when it detects the falling edge of the E signal
 	HAL_GPIO_WritePin(E_GPIO_Port, E_Pin, 1);
-	HAL_Delay(100); // Slight delay for the sake of the display, probably needed idk I haven't learned this from first principles
+	HAL_Delay(50); // Slight delay for the sake of the display, probably needed idk I haven't learned this from first principles
 	HAL_GPIO_WritePin(E_GPIO_Port, E_Pin, 0);
-	HAL_Delay(100);
+	HAL_Delay(50);
 }
 
 /* USER CODE END 4 */
