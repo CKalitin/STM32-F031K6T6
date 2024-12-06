@@ -257,9 +257,10 @@ static void LCD_Init(){
 	*/
 
 	// Start up functions:
-	// 1. 4-bit mode 0x02, 2.
+	// 1. 4-bit mode 0x02, 2. TODO FINISH THIS
 
 	LCD_Send(0, 0b00000010); // Set to 4-bit operation
+	HAL_Delay(100);
 
 	LCD_Send(0, 0b00100001); // Set font to 0,0
 	LCD_Send(0, 0b00001110); // Turn on display and cursor appears
@@ -325,9 +326,9 @@ static void LCD_E_Pulse() {
 	// Operation enable signal. Falling edge triggered.
 	// The display reads in the values from the data pins when it detects the falling edge of the E signal
 	HAL_GPIO_WritePin(E_GPIO_Port, E_Pin, 1);
-	HAL_Delay(50); // Slight delay for the sake of the display, probably needed idk I haven't learned this from first principles
+	HAL_Delay(1); // Slight delay for the sake of the display, probably needed idk I haven't learned this from first principles
 	HAL_GPIO_WritePin(E_GPIO_Port, E_Pin, 0);
-	HAL_Delay(50);
+	HAL_Delay(1);
 }
 
 /* USER CODE END 4 */
