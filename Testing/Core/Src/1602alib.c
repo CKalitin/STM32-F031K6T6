@@ -2,49 +2,15 @@
 
 void LCD_Init() {
 	HAL_GPIO_WritePin(POWER_GPIO_Port, POWER_Pin, 1);
-	HAL_Delay(100);
+	HAL_Delay(40); // Appendix C Page 11 of the datasheet for delay length
 
-	// Start up functions:
-	// 1. 4-bit mode 0x02, 2. TODO FINISH THIS
+    // Function Set: Set to 4-bit operation
+	LCD_Send(0, 0b00000010);
+	HAL_Delay(5);
 
-	LCD_Send(0, 0b00000010); // Set to 4-bit operation
-	HAL_Delay(20);
-
-	LCD_Send(0, 0b00101100); // Set display to 2 rows and font to 0
-	LCD_Send(0, 0b00001110); // Turn on display and cursor appears
-	LCD_Send(0, 0b00000110); // Increase address by one, shift cursor to right when writing, display has no shift
-
-	LCD_Send(1, 0b01010111); // W
-	LCD_Send(1, 0b01001111); // O
-	LCD_Send(1, 0b01010010); // R
-	LCD_Send(1, 0b01001011); // K
-
-	LCD_Send(1, 0b00100000); // Space
-
-	LCD_Send(1, 0b01001000); // H
-	LCD_Send(1, 0b01000001); // A
-	LCD_Send(1, 0b01010010); // R
-	LCD_Send(1, 0b01000100); // D
-	LCD_Send(1, 0b01000101); // E
-	LCD_Send(1, 0b01010010); // R
-
-	LCD_Send(1, 0b00100000); // Space
-
-	LCD_Send(1, 0b01010111); // W
-	LCD_Send(1, 0b01001111); // O
-	LCD_Send(1, 0b01010010); // R
-	LCD_Send(1, 0b01001011); // K
-
-	LCD_Send(0, 0b11000000); // Switch to second line - is this a register select?
-
-	LCD_Send(1, 0b00100000); // Space
-
-	LCD_Send(1, 0b01001000); // H
-	LCD_Send(1, 0b01000001); // A
-	LCD_Send(1, 0b01010010); // R
-	LCD_Send(1, 0b01000100); // D
-	LCD_Send(1, 0b01000101); // E
-	LCD_Send(1, 0b01010010); // R
+	LCD_Send(0, 0b00101000); // 001D NF00: D=Date Length (4 bits is low, 8 bits high), N=Number of lines, F=Font Size
+	LCD_Send(0, 0b00001100); // 0000 1DCB: D=Display, C=Cursor, B=Blink
+	LCD_Send(0, 0b00000110); // 0000 01IS: I=Increment (1) / Decrement (0), S=Shift
 }
 
 void LCD_Send(uint8_t RS_Pin_value, uint8_t data){
@@ -82,5 +48,46 @@ void LCD_E_Pulse() {
 
   // After testing various delays, this one was found to be necessary
   // This makes sense because the display should only need a delay to process after the falling edge of the E signal, as this is what triggers the read
-	HAL_Delay(1);
+	HAL_Delay(E_Pin_Pulse_Delay);
+}
+
+void LCD_Send_Test_Words() {
+
+	LCD_Send(1, 0b00110000); // 0
+    LCD_Send(1, 0b00110001); // 1
+    LCD_Send(1, 0b00110010); // 2
+    LCD_Send(1, 0b00110011); // 3
+    LCD_Send(1, 0b00110100); // 4
+    LCD_Send(1, 0b00110101); // 5
+    LCD_Send(1, 0b00110110); // 6
+    LCD_Send(1, 0b00110111); // 7
+    LCD_Send(1, 0b00111000); // 8
+    LCD_Send(1, 0b00111001); // 9
+	LCD_Send(1, 0b00110000); // 0
+    LCD_Send(1, 0b00110001); // 1
+    LCD_Send(1, 0b00110010); // 2
+    LCD_Send(1, 0b00110011); // 3
+    LCD_Send(1, 0b00110100); // 4
+    LCD_Send(1, 0b00110101); // 5
+    LCD_Send(1, 0b00110110); // 6
+    LCD_Send(1, 0b00110111); // 7
+    LCD_Send(1, 0b00111000); // 8
+    LCD_Send(1, 0b00111001); // 9
+
+    // Set Display Data RAM Address (aaaaaaa) to the Address Counter
+    // 0b10000000 = first line, 0b11000000 = second line
+	LCD_Send(0, 0b11000100);
+
+	LCD_Send(1, 0b00110000); // 0
+    LCD_Send(1, 0b00110001); // 1
+    LCD_Send(1, 0b00110010); // 2
+    LCD_Send(1, 0b00110011); // 3
+    LCD_Send(1, 0b00110100); // 4
+    LCD_Send(1, 0b00110101); // 5
+    LCD_Send(1, 0b00110110); // 6
+    LCD_Send(1, 0b00110111); // 7
+    LCD_Send(1, 0b00111000); // 8
+    LCD_Send(1, 0b00111001); // 9
+
+	//LCD_Send(1, 0b00100000); // Space
 }
