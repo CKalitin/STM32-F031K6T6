@@ -1,5 +1,4 @@
 #include "1602alib.h"
-#include "char_to_uint8.h"
 
 void LCD_Init() {
 	HAL_GPIO_WritePin(POWER_GPIO_Port, POWER_Pin, 1); // Power up display
@@ -50,64 +49,42 @@ void LCD_Pulse_E_Pin() {
 }
 
 void LCD_Send_Test_Words() {
-
-	LCD_Send(1, 0b00110000); // 0
-    LCD_Send(1, 0b00110001); // 1
-    LCD_Send(1, 0b00110010); // 2
-    LCD_Send(1, 0b00110011); // 3
-    LCD_Send(1, 0b00110100); // 4
-    LCD_Send(1, 0b00110101); // 5
-    LCD_Send(1, 0b00110110); // 6
-    LCD_Send(1, 0b00110111); // 7
-    LCD_Send(1, 0b00111000); // 8
-    LCD_Send(1, 0b00111001); // 9
-	LCD_Send(1, 0b00110000); // 0
-    LCD_Send(1, 0b00110001); // 1
-    LCD_Send(1, 0b00110010); // 2
-    LCD_Send(1, 0b00110011); // 3
-    LCD_Send(1, 0b00110100); // 4
-    LCD_Send(1, 0b00110101); // 5
-    LCD_Send(1, 0b00110110); // 6
-    LCD_Send(1, 0b00110111); // 7
-    LCD_Send(1, 0b00111000); // 8
-    LCD_Send(1, 0b00111001); // 9
-
     // Set Display Data RAM Address (aaaaaaa) to the Address Counter
     // 0b10000000 = first line, 0b11000000 = second line
-	LCD_Send(0, 0b11000100);
+	//LCD_Send(0, 0b10000100);
 
-	LCD_Send(1, 0b00110000); // 0
-    LCD_Send(1, 0b00110001); // 1
-    LCD_Send(1, 0b00110010); // 2
-    LCD_Send(1, 0b00110011); // 3
-    LCD_Send(1, 0b00110100); // 4
-    LCD_Send(1, 0b00110101); // 5
-    LCD_Send(1, 0b00110110); // 6
-    LCD_Send(1, 0b00110111); // 7
-    LCD_Send(1, 0b00111000); // 8
-    LCD_Send(1, 0b00111001); // 9
+    char *str = "In the beginning God created the heaven and the earth And the earth was without form and void and darkness was upon the face of the deep And the Spirit of God moved upon the face of the waters";
 
-	LCD_Send(0, 0b10000000);
+    int size = strlen(str);
 
-    // Test the LCD_Char_To_Uint8 function with 'A'
-    char c = 'A';
-    uint8_t u;
-    char_to_uint8(c, &u);
-    LCD_Send(1, u);
+    uint8_t u_arr[size];
 
-    // Test the LCD_Char_To_Uint8 function with an array of chars
-    char *str = "Hello World";
-    uint8_t u_arr[11];
-    LCD_Char_To_Uint8(str, u_arr);
-    for (int i = 0; i < 11; i++) {
+    LCD_Char_Array_To_Uint8(str, u_arr);
+
+    for (int i = 0; i < size; i++) {
+        if (i % 32 == 0) {
+            LCD_Send(0, 0b10000000);
+            LCD_Clear_Display();
+        } else if (i % 16 == 0) {
+            LCD_Send(0, 0b11000000);
+        }
+
         LCD_Send(1, u_arr[i]);
-    }
 
-	//LCD_Send(1, 0b00100000); // Space
+        HAL_Delay(200);
+    }
+}
+
+void LCD_Clear_Display() {
+    LCD_Send(0, 0b00000001);
+}
+
+void LCD_Send_Word(char *str){
+    
 }
 
 // Convert char array to uint8_t array
-void LCD_Char_To_Uint8(char *c, uint8_t *u) {
+void LCD_Char_Array_To_Uint8(char *c, uint8_t *u) {
     while (*c) {
         char_to_uint8(*c, u);
         c++;
