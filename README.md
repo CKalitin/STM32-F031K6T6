@@ -1,2 +1,5 @@
 # STM32-F031K6T6
 We use STM32s on UBC Solar and I need to learn how they actually work and how to use them. I bought one
+
+1602A LCD Display Datasheet:  
+https://www.crystalfontz.com/products/document/964/CFAH1602XYYHJP_v2.0.pdf
