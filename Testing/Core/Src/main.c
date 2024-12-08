@@ -326,9 +326,9 @@ static void LCD_E_Pulse() {
 	// Operation enable signal. Falling edge triggered.
 	// The display reads in the values from the data pins when it detects the falling edge of the E signal
 	HAL_GPIO_WritePin(E_GPIO_Port, E_Pin, 1);
-	HAL_Delay(1); // Slight delay for the sake of the display, probably needed idk I haven't learned this from first principles
+	HAL_Delay(100); // Slight delay for the sake of the display, probably needed idk I haven't learned this from first principles
 	HAL_GPIO_WritePin(E_GPIO_Port, E_Pin, 0);
-	HAL_Delay(1);
+	HAL_Delay(100);
 }
 
 /* USER CODE END 4 */
