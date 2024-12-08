@@ -91,7 +91,7 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   LCD_Init();
-  LCD_Send_Test_Words();
+  Play_Celebration_Lyrics();
   /* USER CODE END 2 */
 
   /* Infinite loop */

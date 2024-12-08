@@ -48,46 +48,75 @@ void LCD_Pulse_E_Pin() {
 	HAL_Delay(E_Pin_Pulse_Delay);
 }
 
-void LCD_Send_Test_Words() {
-    // Set Display Data RAM Address (aaaaaaa) to the Address Counter
-    // 0b10000000 = first line, 0b11000000 = second line
-	//LCD_Send(0, 0b10000100);
-
-    char *str = "In the beginning God created the heaven and the earth And the earth was without form and void and darkness was upon the face of the deep And the Spirit of God moved upon the face of the waters";
-
-    int size = strlen(str);
-
-    uint8_t u_arr[size];
-
-    LCD_Char_Array_To_Uint8(str, u_arr);
-
-    for (int i = 0; i < size; i++) {
-        if (i % 32 == 0) {
-            LCD_Send(0, 0b10000000);
-            LCD_Clear_Display();
-        } else if (i % 16 == 0) {
-            LCD_Send(0, 0b11000000);
-        }
-
-        LCD_Send(1, u_arr[i]);
-
-        HAL_Delay(200);
-    }
-}
-
 void LCD_Clear_Display() {
     LCD_Send(0, 0b00000001);
 }
 
-void LCD_Send_Word(char *str){
-    
+// str: The string to print, char_delay_ms: The delay between each character
+void LCD_Send_Word(char *str, uint8_t size, uint32_t char_delay_ms){
+	uint8_t u_arr[size];
+	LCD_Char_Array_To_Uint8(str, u_arr, size);
+	
+	// If the size is larger than a single line, clear the display and print from position zero
+	// You get an ugly seam in the middle of the word, but this is better than the alternative
+	if (size > 16) {
+		current_position = 0;
+		LCD_Set_Cursor_Pos(0);
+		LCD_Clear_Display();
+		LCD_Send_Char_Array_At_Cursor(u_arr, 16, char_delay_ms);
+		LCD_Set_Cursor_Pos(16);
+		LCD_Send_Char_Array_At_Cursor(u_arr + 16, size - 16, char_delay_ms);
+		return;
+	}
+
+	// If size is greater than the remaining space on line 2, clear the display and print from position zero
+	if (current_position + size > 32) {
+		current_position = 0;
+		LCD_Set_Cursor_Pos(0);
+		LCD_Clear_Display();
+		LCD_Send_Char_Array_At_Cursor(u_arr, size, char_delay_ms);
+		return;
+	}
+
+	// If size is greater than the remaining space on line 1, go to line 2
+	if (current_position + size > 16) {
+		current_position = 16;
+		LCD_Set_Cursor_Pos(16);
+		LCD_Send_Char_Array_At_Cursor(u_arr, size, char_delay_ms);
+		return;
+	}
+
+	// Otherwise, print the string
+	LCD_Send_Char_Array_At_Cursor(u_arr, size, char_delay_ms);
+}
+
+// This prints a char array to the display starting at the current cursor position
+// str: The string to print, char_delay_ms: The delay between each character
+void LCD_Send_Char_Array_At_Cursor(uint8_t *arr, uint8_t size, uint32_t char_delay_ms) {
+	for (int i = 0; i < size; i++) {
+		LCD_Send(1, arr[i]);
+		HAL_Delay(char_delay_ms);
+	}
+}
+
+void LCD_Set_Cursor_Pos(uint8_t pos) {
+	// I'm using this command from Appendix C page 6 of the datasheet (5.2.8)
+    // Set Display Data RAM Address (1xxxxxxx) to the Address Counter
+    // 0b10000000 = first line, 0b11000000 = second line
+
+	if (pos < 16) {
+		LCD_Send(0, 0b10000000 + pos);
+	} else {
+		LCD_Send(0, 0b11000000 + pos - 16);
+	}
 }
 
 // Convert char array to uint8_t array
-void LCD_Char_Array_To_Uint8(char *c, uint8_t *u) {
-    while (*c) {
+void LCD_Char_Array_To_Uint8(char *c, uint8_t *u, uint8_t size) {
+    while (*c && size > 0) {
         char_to_uint8(*c, u);
         c++;
         u++;
+		size--;
     }
 }

@@ -34,6 +34,7 @@ extern "C" {
 
 #include "stdio.h"
 #include "1602alib.h"
+#include "celebration.h"
 
 /* USER CODE END Includes */
 
