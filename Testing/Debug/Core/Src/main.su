@@ -3,6 +3,6 @@
 ../Core/Src/main.c:164:13:MX_USART1_UART_Init	8	static
 ../Core/Src/main.c:199:13:MX_GPIO_Init	48	static
 ../Core/Src/main.c:238:13:LCD_Init	8	static
-../Core/Src/main.c:298:13:LCD_Send	16	static
-../Core/Src/main.c:325:13:LCD_E_Pulse	8	static
-../Core/Src/main.c:340:6:Error_Handler	8	static,ignoring_inline_asm
+../Core/Src/main.c:281:13:LCD_Send	16	static
+../Core/Src/main.c:308:13:LCD_E_Pulse	8	static
+../Core/Src/main.c:325:6:Error_Handler	8	static,ignoring_inline_asm
