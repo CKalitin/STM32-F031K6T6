@@ -3,3 +3,7 @@ We use STM32s on UBC Solar and I need to learn how they actually work and how to
 
 1602A LCD Display Datasheet:  
 https://www.crystalfontz.com/products/document/964/CFAH1602XYYHJP_v2.0.pdf
+
+Project Videos:  
+https://x.com/CKalitin/status/1865892778745708866  
+https://x.com/CKalitin/status/1864882097003073865  
