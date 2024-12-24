@@ -60,8 +60,8 @@ all: main-build
 main-build: Testing.elf secondary-outputs
 
 # Tool invocations
-Testing.elf Testing.map: $(OBJS) $(USER_OBJS) C:\_Dev\STM32-F031K6T6\Testing\STM32F031K6TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Testing.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0 -T"C:\_Dev\STM32-F031K6T6\Testing\STM32F031K6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Testing.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Testing.elf Testing.map: $(OBJS) $(USER_OBJS) C:\_Dev\STM32-F031K6T6\1602A-Lib\STM32F031K6TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Testing.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0 -T"C:\_Dev\STM32-F031K6T6\1602A-Lib\STM32F031K6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Testing.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

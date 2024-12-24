@@ -1,4 +1,6 @@
 "./Core/Src/1602alib.o"
+"./Core/Src/celebration.o"
+"./Core/Src/char_to_uint8.o"
 "./Core/Src/main.o"
 "./Core/Src/stm32f0xx_hal_msp.o"
 "./Core/Src/stm32f0xx_it.o"
