@@ -23,8 +23,12 @@ time.sleep(0.1) # Wait until after reset/clear is complete, give the afg some ti
 
 afg.write("SOURce1:FUNCtion:SHAPe PULSe") # Pulse function mode
 afg.write("SOURce1:PULSe:DCYC 99.9") # Max 99.9% duty cycle
+
+time.sleep(0.1) # 0.1 seconds
+
 afg.write("SOURce1:PULSe:PERiod 1s") # Set period to 1000s
 
+time.sleep(0.1) # 0.1 seconds
 # Default voltage of 1V
 # We want a high of 1V and low of 0V, so we have to adjust the waveform up by 0.5V, since 1V is the wave amplitude
 afg.write("SOURce1:VOLTage:LEVel:IMMediate:AMPLitude 1.0")
@@ -33,6 +37,8 @@ afg.write("SOURce1:VOLTage:LEVel:IMMediate:OFFSet 0.5")
 time.sleep(0.1) # 0.1 seconds
 
 afg.write("OUTPUT1:STATe ON") # NOTE: We are using output 1
+
+time.sleep(0.1) # 0.1 seconds
 
 # Remember to replace COM7 with the COM port that the Nucleo or ST Link is attachted to
 # You can check in Windows Device Manager
