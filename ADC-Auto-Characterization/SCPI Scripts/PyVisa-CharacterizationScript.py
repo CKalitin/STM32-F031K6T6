@@ -1,6 +1,5 @@
 import pyvisa
 import time
-import numpy as np
 
 rm = pyvisa.ResourceManager('@py')
 

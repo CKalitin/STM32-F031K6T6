@@ -28,6 +28,7 @@
 /* USER CODE BEGIN PTD */
 
 #include <stdio.h>
+#include <string.h>
 
 /* USER CODE END PTD */
 
@@ -42,7 +43,7 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-ADC_HandleTypeDef hadc1;
+ADC_HandleTypeDef hadc2;
 
 UART_HandleTypeDef huart2;
 
@@ -53,8 +54,8 @@ UART_HandleTypeDef huart2;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void MX_ADC1_Init(void);
 static void MX_USART2_UART_Init(void);
+static void MX_ADC2_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -66,7 +67,8 @@ const int bufferLength = 50;
 int buffer[50] = {0};
 int bufferIndex;
 
-char tx_buff[10];
+char tx_buff[50];
+char rx_buff[50];
 
 /* USER CODE END 0 */
 
@@ -99,8 +101,8 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_ADC1_Init();
   MX_USART2_UART_Init();
+  MX_ADC2_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -113,17 +115,34 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	  HAL_ADC_Start(&hadc1);
-	  HAL_ADC_PollForConversion(&hadc1, 1);
-	  int adcValue = HAL_ADC_GetValue(&hadc1);
+	  memset(rx_buff, 0, sizeof(rx_buff));
+	  HAL_UART_Receive(&huart2, (uint8_t*)rx_buff, sizeof(rx_buff), 1000);
 
-	  sprintf(tx_buff, "%d\n\r", adcValue);
+	  if (rx_buff[0] != 's') continue; // If we haven't received the start command, continue to the next iteration of the while loop
+
+	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+
+	  int adcValuesSum = 0;
+
+	  int numSamples = 100;
+
+	  // Get 10 spaced out ADC values
+	  for (int i = 0; i < numSamples; i++){
+		  HAL_ADC_Start(&hadc2);
+		  HAL_ADC_PollForConversion(&hadc2, 1);
+		  adcValuesSum += HAL_ADC_GetValue(&hadc2);
+		  HAL_Delay(1);
+	  }
+
+	  int adcValuesAveraged = adcValuesSum / numSamples;
+
+	  sprintf(tx_buff, "%d\n\r", adcValuesAveraged);
 
 	  HAL_UART_Transmit(&huart2, (uint8_t*)tx_buff, sizeof(tx_buff), 1000);
 
 	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
 
-	  HAL_Delay(1000);
+	  HAL_Delay(100);
 
   }
   /* USER CODE END 3 */
@@ -173,49 +192,49 @@ void SystemClock_Config(void)
 }
 
 /**
-  * @brief ADC1 Initialization Function
+  * @brief ADC2 Initialization Function
   * @param None
   * @retval None
   */
-static void MX_ADC1_Init(void)
+static void MX_ADC2_Init(void)
 {
 
-  /* USER CODE BEGIN ADC1_Init 0 */
+  /* USER CODE BEGIN ADC2_Init 0 */
 
-  /* USER CODE END ADC1_Init 0 */
+  /* USER CODE END ADC2_Init 0 */
 
   ADC_ChannelConfTypeDef sConfig = {0};
 
-  /* USER CODE BEGIN ADC1_Init 1 */
+  /* USER CODE BEGIN ADC2_Init 1 */
 
-  /* USER CODE END ADC1_Init 1 */
+  /* USER CODE END ADC2_Init 1 */
 
   /** Common config
   */
-  hadc1.Instance = ADC1;
-  hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
-  hadc1.Init.ContinuousConvMode = DISABLE;
-  hadc1.Init.DiscontinuousConvMode = DISABLE;
-  hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
-  hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc1.Init.NbrOfConversion = 1;
-  if (HAL_ADC_Init(&hadc1) != HAL_OK)
+  hadc2.Instance = ADC2;
+  hadc2.Init.ScanConvMode = ADC_SCAN_DISABLE;
+  hadc2.Init.ContinuousConvMode = DISABLE;
+  hadc2.Init.DiscontinuousConvMode = DISABLE;
+  hadc2.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc2.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc2.Init.NbrOfConversion = 1;
+  if (HAL_ADC_Init(&hadc2) != HAL_OK)
   {
     Error_Handler();
   }
 
   /** Configure Regular Channel
   */
-  sConfig.Channel = ADC_CHANNEL_8;
+  sConfig.Channel = ADC_CHANNEL_4;
   sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
-  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN ADC1_Init 2 */
+  /* USER CODE BEGIN ADC2_Init 2 */
 
-  /* USER CODE END ADC1_Init 2 */
+  /* USER CODE END ADC2_Init 2 */
 
 }
 
@@ -265,7 +284,6 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);

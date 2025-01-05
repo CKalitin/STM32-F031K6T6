@@ -15,6 +15,8 @@ print(instrument.query('*IDN?'))
 
 # Guide on how to send waveform: https://my.tek.com/en/tektalk/signal-gen/205c8abe-dc53-ed11-a81b-000d3a324ccc
 
+# BETTER DOCS: https://mmrc.caltech.edu/Tektronics/AFG3021B/AFG3021B%20Programmer%20Manual.pdf
+
 # Reset the instrument to a known state
 instrument.write("*RST")
 
@@ -42,8 +44,6 @@ time.sleep(1)
 delay_per_obv = 1 # seconds
 
 voltage = 0
-
-# Nice docs: https://download.tek.com/manual/AFG1022-Programmer-Manual-EN.pdf
 
 while True:
     voltage += 0.05
