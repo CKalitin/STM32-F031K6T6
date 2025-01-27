@@ -27,9 +27,6 @@
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 
-#include <stdio.h>
-#include <string.h>
-
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -62,14 +59,6 @@ static void MX_ADC2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
-// Note that UART_HandleTypeDef and ADC_HandleTypeDef are parameters so that we can change if we use UART1, UART2, etc. or ADC1, ADCx, etc.
-void Continue_On_UART_Receive(UART_HandleTypeDef);
-void Send_ADC_Values_Over_UART(UART_HandleTypeDef, int, int);
-void Get_Averaged_ADC_Values(ADC_HandleTypeDef, int, int, int*, int*);
-
-char tx_buff[100];
-char rx_buff[100];
 
 /* USER CODE END 0 */
 
@@ -285,60 +274,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
-/**
-  * @brief Wait for 's' character to be received over UART to continue the program
-  * @param uart: UART_HandleTypeDef object
-  * @retval None
-  */
-void Continue_On_UART_Receive(UART_HandleTypeDef uart){
-  // The 's' character here is arbitrary
-  // We just pause the program until we see 's'
-  while (rx_buff[0] != 's'){
-    memset(rx_buff, 0, sizeof(rx_buff));
-    HAL_UART_Receive(&uart, (uint8_t*)rx_buff, sizeof(rx_buff), 1000); // HAL_UART_Receive waits until '\n' to continue the program
-  }
-}
-
-/**
-  * @brief Send ADC values over UART to the Python script
-  * @param uart: UART_HandleTypeDef object
-  * @retval None
-  */
-void Send_ADC_Values_Over_UART(UART_HandleTypeDef uart, int adcValuesAveraged, int adcValuesAdjusted){
-  memset(tx_buff, 0, sizeof(tx_buff));
-  sprintf(tx_buff, "%d, %d\n\r", adcValuesAveraged, adcValuesAdjusted);
-  HAL_UART_Transmit(&uart, (uint8_t*)tx_buff, sizeof(tx_buff), 1000);
-}
-
-/**
-  * @brief Take numSamples ADC values, average them, then return both raw and error adjusted values
-  * @param hadc: ADC_HandleTypeDef object
-  * @param numSamples: Number of ADC values to average
-  * @param msPerObv: Milliseconds between each ADC observation
-  * @param adcValuesAveraged: Pointer to the averaged ADC value
-  * @param adcValuesAdjusted: Pointer to the averaged ADC value, adjusted for error
-  * @retval None
-  */
-void Get_Averaged_ADC_Values(ADC_HandleTypeDef hadc, int numSamples, int msPerObv, int* adcValuesAveraged, int* adcValuesAdjusted){
-  int adcValuesSum = 0;
-
-  HAL_ADC_Start(&hadc);
-  HAL_ADC_PollForConversion(&hadc, 1);
-
-  // Get numSamples ADC values, each 1ms apart
-  for (int i = 0; i < numSamples; i++){
-    int out = HAL_ADC_GetValue(&hadc);
-    adcValuesSum += out;
-    HAL_Delay(msPerObv);
-  }
-
-  int adcError = -72.5 + 0.0133*(adcValuesSum / numSamples); // This is a predetermined error polynomial
-
-  // Set pointer outputs
-  *adcValuesAveraged = adcValuesSum / numSamples;
-  *adcValuesAdjusted = *adcValuesAveraged - adcError;
-}
 
 /* USER CODE END 4 */
 
