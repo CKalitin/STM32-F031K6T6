@@ -24,6 +24,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 /* USER CODE END Includes */
 
@@ -43,6 +44,8 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
+ADC_HandleTypeDef hadc1;
+
 UART_HandleTypeDef huart5;
 
 /* USER CODE BEGIN PV */
@@ -53,12 +56,20 @@ UART_HandleTypeDef huart5;
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_UART5_Init(void);
+static void MX_ADC1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+void Continue_On_UART_Receive(UART_HandleTypeDef);
+void Send_ADC_Values_Over_UART(UART_HandleTypeDef, int, int);
+void Get_Averaged_ADC_Values(ADC_HandleTypeDef, int, int, int*, int*);
+
+char tx_buff[100];
+char rx_buff[100];
 
 /* USER CODE END 0 */
 
@@ -92,69 +103,32 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_UART5_Init();
+  MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
-
-  char tx_buff[50];
-  char rx_buff[50];
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  	while (1)
+  while (1)
 	{
-		  memset(tx_buff, 0, sizeof(tx_buff));
-  			tx_buff[0] = "D";
-  			tx_buff[1] = "H";
-		  HAL_UART_Transmit(&huart5, (uint8_t*)tx_buff, sizeof(tx_buff), 1000);
-		  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
-
-		  HAL_Delay(100);
-/*
-		  memset(tx_buff, 0, sizeof(tx_buff));
-		  HAL_ADC_Start(&hadc1);
-		  HAL_ADC_PollForConversion(&hadc1, 1);
-		  int out = HAL_ADC_GetValue(&hadc1);
-		  //sprintf(tx_buff, "%d\n\r", out);
-		  tx_buff[0] = "H";
-		  HAL_UART_Transmit(&huart5, (uint8_t*)tx_buff, sizeof(tx_buff), 1000);
-		  HAL_Delay(100);
-
-*/
-
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 
-  	/*
+    // This function waits until 's' is received on UART to continue
+    // This way, from the Python script we can command the STM32 chip operate only when we tell it to
+    Continue_On_UART_Receive(huart5);
 
-	  memset(rx_buff, 0, sizeof(rx_buff));
-	  HAL_UART_Receive(&huart5, (uint8_t*)rx_buff, sizeof(rx_buff), 1000);
+	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin); // Toggle the LED high when we're collecting or sending values
 
-	  if (rx_buff[0] != 's') continue; // If we haven't received the start command, continue to the next iteration of the while loop
+    int adcValuesAveraged = 0;
+    int adcValuesAdjusted = 0;
+    Get_Averaged_ADC_Values(hadc1, 50, 1, &adcValuesAveraged, &adcValuesAdjusted);
+
+    Send_ADC_Values_Over_UART(huart5, adcValuesAveraged, adcValuesAdjusted);
 
 	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
-
-	  int adcValuesSum = 0;
-
-	  int numSamples = 100;
-
-	  // Get 10 spaced out ADC values
-	  for (int i = 0; i < numSamples; i++){
-		  HAL_ADC_Start(&hadc1);
-		  HAL_ADC_PollForConversion(&hadc1, 1);
-		  adcValuesSum += HAL_ADC_GetValue(&hadc1);
-		  HAL_Delay(1);
-	  }
-
-	  int adcValuesAveraged = adcValuesSum / numSamples;
-
-	  sprintf(tx_buff, "%d\n\r", adcValuesAveraged);
-
-	  HAL_UART_Transmit(&huart5, (uint8_t*)tx_buff, sizeof(tx_buff), 1000);
-
-	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);*/
-
 	}
   /* USER CODE END 3 */
 }
@@ -167,6 +141,7 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -193,6 +168,59 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
+  PeriphClkInit.AdcClockSelection = RCC_ADCPCLK2_DIV2;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+  {
+    Error_Handler();
+  }
+}
+
+/**
+  * @brief ADC1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ADC1_Init(void)
+{
+
+  /* USER CODE BEGIN ADC1_Init 0 */
+
+  /* USER CODE END ADC1_Init 0 */
+
+  ADC_ChannelConfTypeDef sConfig = {0};
+
+  /* USER CODE BEGIN ADC1_Init 1 */
+
+  /* USER CODE END ADC1_Init 1 */
+
+  /** Common config
+  */
+  hadc1.Instance = ADC1;
+  hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
+  hadc1.Init.ContinuousConvMode = DISABLE;
+  hadc1.Init.DiscontinuousConvMode = DISABLE;
+  hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc1.Init.NbrOfConversion = 1;
+  if (HAL_ADC_Init(&hadc1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Regular Channel
+  */
+  sConfig.Channel = ADC_CHANNEL_14;
+  sConfig.Rank = ADC_REGULAR_RANK_1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN ADC1_Init 2 */
+
+  /* USER CODE END ADC1_Init 2 */
+
 }
 
 /**
@@ -259,6 +287,60 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+/**
+  * @brief Wait for 's' character to be received over UART to continue the program
+  * @param uart: UART_HandleTypeDef object
+  * @retval None
+  */
+void Continue_On_UART_Receive(UART_HandleTypeDef uart){
+  // The 's' character here is arbitrary
+  // We just pause the program until we see 's'
+  while (rx_buff[0] != 's'){
+    memset(rx_buff, 0, sizeof(rx_buff));
+    HAL_UART_Receive(&uart, (uint8_t*)rx_buff, sizeof(rx_buff), 1000); // HAL_UART_Receive waits until '\n' to continue the program
+  }
+}
+
+/**
+  * @brief Send ADC values over UART to the Python script
+  * @param uart: UART_HandleTypeDef object
+  * @retval None
+  */
+void Send_ADC_Values_Over_UART(UART_HandleTypeDef uart, int adcValuesAveraged, int adcValuesAdjusted){
+  memset(tx_buff, 0, sizeof(tx_buff));
+  sprintf(tx_buff, "%d, %d\n\r", adcValuesAveraged, adcValuesAdjusted);
+  HAL_UART_Transmit(&uart, (uint8_t*)tx_buff, sizeof(tx_buff), 1000);
+}
+
+/**
+  * @brief Take numSamples ADC values, average them, then return both raw and error adjusted values
+  * @param hadc: ADC_HandleTypeDef object
+  * @param numSamples: Number of ADC values to average
+  * @param msPerObv: Milliseconds between each ADC observation
+  * @param adcValuesAveraged: Pointer to the averaged ADC value
+  * @param adcValuesAdjusted: Pointer to the averaged ADC value, adjusted for error
+  * @retval None
+  */
+void Get_Averaged_ADC_Values(ADC_HandleTypeDef hadc, int numSamples, int msPerObv, int* adcValuesAveraged, int* adcValuesAdjusted){
+  int adcValuesSum = 0;
+
+  HAL_ADC_Start(&hadc);
+  HAL_ADC_PollForConversion(&hadc, 1);
+
+  // Get numSamples ADC values, each 1ms apart
+  for (int i = 0; i < numSamples; i++){
+    int out = HAL_ADC_GetValue(&hadc);
+    adcValuesSum += out;
+    HAL_Delay(msPerObv);
+  }
+
+  int adcError = -72.5 + 0.0133*(adcValuesSum / numSamples); // This is a predetermined error polynomial
+
+  // Set pointer outputs
+  *adcValuesAveraged = adcValuesSum / numSamples;
+  *adcValuesAdjusted = *adcValuesAveraged - adcError;
+}
 
 /* USER CODE END 4 */
 

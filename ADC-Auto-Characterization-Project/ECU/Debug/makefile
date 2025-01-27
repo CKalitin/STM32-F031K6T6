@@ -60,8 +60,8 @@ all: main-build
 main-build: Solar-ECU-ADC-Auto-Characterization.elf secondary-outputs
 
 # Tool invocations
-Solar-ECU-ADC-Auto-Characterization.elf Solar-ECU-ADC-Auto-Characterization.map: $(OBJS) $(USER_OBJS) C:\Users\Chris\Documents\Git\STM32-F031K6T6\Solar-ECU-ADC-Auto-Characterization\STM32F103RCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Solar-ECU-ADC-Auto-Characterization.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\Chris\Documents\Git\STM32-F031K6T6\Solar-ECU-ADC-Auto-Characterization\STM32F103RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Solar-ECU-ADC-Auto-Characterization.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Solar-ECU-ADC-Auto-Characterization.elf Solar-ECU-ADC-Auto-Characterization.map: $(OBJS) $(USER_OBJS) C:\Users\Chris\Documents\Git\STM32-F031K6T6\ADC-Auto-Characterization-Project\ECU\STM32F103RCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Solar-ECU-ADC-Auto-Characterization.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\Chris\Documents\Git\STM32-F031K6T6\ADC-Auto-Characterization-Project\ECU\STM32F103RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Solar-ECU-ADC-Auto-Characterization.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -u _printf_float -u _scanf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

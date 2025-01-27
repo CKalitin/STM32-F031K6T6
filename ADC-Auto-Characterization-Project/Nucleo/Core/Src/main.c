@@ -63,12 +63,13 @@ static void MX_ADC2_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-const int bufferLength = 50;
-int buffer[50] = {0};
-int bufferIndex;
+// Note that UART_HandleTypeDef and ADC_HandleTypeDef are parameters so that we can change if we use UART1, UART2, etc. or ADC1, ADCx, etc.
+void Continue_On_UART_Receive(UART_HandleTypeDef);
+void Send_ADC_Values_Over_UART(UART_HandleTypeDef, int, int);
+void Get_Averaged_ADC_Values(ADC_HandleTypeDef, int, int, int*, int*);
 
-char tx_buff[50];
-char rx_buff[50];
+char tx_buff[100];
+char rx_buff[100];
 
 /* USER CODE END 0 */
 
@@ -115,35 +116,19 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	  memset(rx_buff, 0, sizeof(rx_buff));
-	  HAL_UART_Receive(&huart2, (uint8_t*)rx_buff, sizeof(rx_buff), 1000);
+    // This function waits until 's' is received on UART to continue
+    // This way, from the Python script we can command the STM32 chip operate only when we tell it to
+    Continue_On_UART_Receive(huart2);
 
-	  if (rx_buff[0] != 's') continue; // If we haven't received the start command, continue to the next iteration of the while loop
+	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin); // Toggle the LED high when we're collecting or sending values
 
-	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+    int adcValuesAveraged = 0;
+    int adcValuesAdjusted = 0;
+    Get_Averaged_ADC_Values(hadc2, 50, 1, &adcValuesAveraged, &adcValuesAdjusted);
 
-	  int adcValuesSum = 0;
-
-	  int numSamples = 100;
-
-	  // Get 10 spaced out ADC values
-	  for (int i = 0; i < numSamples; i++){
-		  HAL_ADC_Start(&hadc2);
-		  HAL_ADC_PollForConversion(&hadc2, 1);
-		  adcValuesSum += HAL_ADC_GetValue(&hadc2);
-		  HAL_Delay(1);
-	  }
-
-	  int adcValuesAveraged = adcValuesSum / numSamples;
-
-	  sprintf(tx_buff, "%d\n\r", adcValuesAveraged);
-
-	  HAL_UART_Transmit(&huart2, (uint8_t*)tx_buff, sizeof(tx_buff), 1000);
+    Send_ADC_Values_Over_UART(huart2, adcValuesAveraged, adcValuesAdjusted);
 
 	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
-
-	  HAL_Delay(100);
-
   }
   /* USER CODE END 3 */
 }
@@ -300,6 +285,60 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+/**
+  * @brief Wait for 's' character to be received over UART to continue the program
+  * @param uart: UART_HandleTypeDef object
+  * @retval None
+  */
+void Continue_On_UART_Receive(UART_HandleTypeDef uart){
+  // The 's' character here is arbitrary
+  // We just pause the program until we see 's'
+  while (rx_buff[0] != 's'){
+    memset(rx_buff, 0, sizeof(rx_buff));
+    HAL_UART_Receive(&uart, (uint8_t*)rx_buff, sizeof(rx_buff), 1000); // HAL_UART_Receive waits until '\n' to continue the program
+  }
+}
+
+/**
+  * @brief Send ADC values over UART to the Python script
+  * @param uart: UART_HandleTypeDef object
+  * @retval None
+  */
+void Send_ADC_Values_Over_UART(UART_HandleTypeDef uart, int adcValuesAveraged, int adcValuesAdjusted){
+  memset(tx_buff, 0, sizeof(tx_buff));
+  sprintf(tx_buff, "%d, %d\n\r", adcValuesAveraged, adcValuesAdjusted);
+  HAL_UART_Transmit(&uart, (uint8_t*)tx_buff, sizeof(tx_buff), 1000);
+}
+
+/**
+  * @brief Take numSamples ADC values, average them, then return both raw and error adjusted values
+  * @param hadc: ADC_HandleTypeDef object
+  * @param numSamples: Number of ADC values to average
+  * @param msPerObv: Milliseconds between each ADC observation
+  * @param adcValuesAveraged: Pointer to the averaged ADC value
+  * @param adcValuesAdjusted: Pointer to the averaged ADC value, adjusted for error
+  * @retval None
+  */
+void Get_Averaged_ADC_Values(ADC_HandleTypeDef hadc, int numSamples, int msPerObv, int* adcValuesAveraged, int* adcValuesAdjusted){
+  int adcValuesSum = 0;
+
+  HAL_ADC_Start(&hadc);
+  HAL_ADC_PollForConversion(&hadc, 1);
+
+  // Get numSamples ADC values, each 1ms apart
+  for (int i = 0; i < numSamples; i++){
+    int out = HAL_ADC_GetValue(&hadc);
+    adcValuesSum += out;
+    HAL_Delay(msPerObv);
+  }
+
+  int adcError = -72.5 + 0.0133*(adcValuesSum / numSamples); // This is a predetermined error polynomial
+
+  // Set pointer outputs
+  *adcValuesAveraged = adcValuesSum / numSamples;
+  *adcValuesAdjusted = *adcValuesAveraged - adcError;
+}
 
 /* USER CODE END 4 */
 
