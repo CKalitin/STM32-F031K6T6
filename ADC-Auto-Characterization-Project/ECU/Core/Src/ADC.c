@@ -17,14 +17,15 @@ void Get_Averaged_ADC_Values(ADC_HandleTypeDef hadc, int numSamples, int msPerOb
 
   // Get numSamples ADC values, each 1ms apart
   for (int i = 0; i < numSamples; i++){
-    int out = HAL_ADC_GetValue(&hadc);
-    adcValuesSum += out;
+    adcValuesSum += HAL_ADC_GetValue(&hadc);
     HAL_Delay(msPerObv);
   }
 
-  int adcError = -72.5 + 0.0133*(adcValuesSum / numSamples); // This is a predetermined error polynomial
+  *adcValuesAveraged = adcValuesSum / numSamples; // Set pointer output
 
-  // Set pointer outputs
-  *adcValuesAveraged = adcValuesSum / numSamples;
-  *adcValuesAdjusted = *adcValuesAveraged - adcError;
+  int adcError = -75.8 + 0.0222 * (*adcValuesAveraged); // This is a predetermined error polynomial
+  int currentSensorADCError = 72 - 0.0325 * (*adcValuesAveraged); // This is the predetermined erroy polynomial for the current sensor
+  currentSensorADCError += 19.6 - 8.82E-3 * (*adcValuesAveraged); // This is the predetermined erroy polynomial for the current sensor
+
+  *adcValuesAdjusted = *adcValuesAveraged - adcError - currentSensorADCError; // Set the other pointer output
 }

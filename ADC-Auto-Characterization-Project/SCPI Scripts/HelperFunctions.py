@@ -11,7 +11,7 @@ class Timer:
         self.start_time = time.time()
     
     def get_elapsed_time(self):
-        return time.time() - self.start
+        return time.time() - self.start_time
 
 # Replace all terms in a string that equal delete_chars with ""
 # Eg. remove_chars("1212, 8989\n\x00", ["\n", "\x00", " "]) returns "1212,8989"
@@ -84,4 +84,5 @@ def get_adc_value_from_stm32(serial_bus):
     serial_bus.write("s".encode()) # This commands the STM32 to start reading ADC values and return the average
     uart_data = serial_bus.readline().decode("utf-8")
     uart_data = remove_chars(uart_data, ["\n", "\x00", " "]) # Remove all bullshit from the string
-    return int(uart_data.split(",")) # Return the values as a ints
+    raw_adc_value, adjusted_adc_value = uart_data.split(",") # Return the values as a ints
+    return int(raw_adc_value), int(adjusted_adc_value)

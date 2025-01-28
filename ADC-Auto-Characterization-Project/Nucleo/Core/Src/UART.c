@@ -8,9 +8,11 @@
 void Continue_On_UART_Receive(UART_HandleTypeDef uart){
   // The 's' character here is arbitrary
   // We just pause the program until we see 's'
+  memset(rx_buff, 0, sizeof(rx_buff));
   while (rx_buff[0] != 's'){
     memset(rx_buff, 0, sizeof(rx_buff));
     HAL_UART_Receive(&uart, (uint8_t*)rx_buff, sizeof(rx_buff), 1000); // HAL_UART_Receive waits until '\n' to continue the program
+    HAL_Delay(1); // Wait a ms because why not
   }
 }
 

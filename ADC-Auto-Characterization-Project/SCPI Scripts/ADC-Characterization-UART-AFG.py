@@ -2,9 +2,7 @@ import serial
 import pyvisa
 import time
 
-# Todo, add startup prints to see process
-
-# Docs with afg commands: https://mmrc.caltech.edu/Tektronics/AFG3021B/AFG3021B%20Programmer%20Manual.pdf
+import HelperFunctions as hf
 
 rm = pyvisa.ResourceManager('@py')
 
@@ -16,100 +14,53 @@ print(rm.list_resources())
 afg = rm.open_resource('USB0::1689::851::1516313::0::INSTR')
 dmm = rm.open_resource('USB0::0x05E6::0x2110::8005314::INSTR')
 
-afg.write("*RST") # Reset instrument to the default state (sine wave)
-afg.write("*CLS") # Clear all event registers and queues
+# Setup the afg to output a pulse with a 99.9% duty cycle and period of 1000000s
+hf.set_afg_pulse_high_voltage(afg)
+hf.enable_afg_output(afg)
 
-time.sleep(0.1) # Wait until after reset/clear is complete, give the afg some time to breathe
+serial_bus = hf.open_serial("COM7", 115200)
 
-afg.write("SOURce1:FUNCtion:SHAPe PULSe") # Pulse function mode
-
-time.sleep(0.1) # Wait until after reset/clear is complete, give the afg some time to breathe
-
-afg.write("SOURce1:PULSe:DCYC 99.9") # Max 99.9% duty cycle
-
-time.sleep(0.1)
-
-afg.write("SOURce1:FREQuency 0.001")
-
-time.sleep(0.1)
-
-# Default voltage of 1V
-# We want a high of 1V and low of 0V, so we have to adjust the waveform up by 0.5V, since 1V is the wave amplitude
-afg.write("SOURce1:VOLTage:LEVel:IMMediate:AMPLitude 1.0")
-afg.write("SOURce1:VOLTage:LEVel:IMMediate:OFFSet 0.5")
-
-time.sleep(0.1) # 0.1 seconds
-
-afg.write("OUTPUT1:STATe ON") # NOTE: We are using output 1
-
-# Remember to replace COM7 with the COM port that the Nucleo or ST Link is attachted to
-# You can check in Windows Device Manager
-serial_bus = serial.Serial(
-    port="COM7",
-    baudrate=115200,
-    parity=serial.PARITY_NONE,
-    stopbits=serial.STOPBITS_ONE,
-    bytesize=serial.EIGHTBITS
-)
-
-time.sleep(0.1)
-
-voltage = 0.1 # Setting intial to 0 gives an erroneous result
+voltage = 0.1
 voltage_step = 0.1
-voltage_offset = 0.05 # Because the voltage field is the amplitude of the waveform, we need to offset upwards to get 0V as the low value
-dmm_voltage = 0
+
+exit_dmm_voltage = 3.3 # When the DMM hits this value, we stop
+
+max_ADC_values_count = 0 # When there are >5 max ADC values (4095), we stop
+exit_max_ADC_value = 5 # Exit when 5 adc values have been at the max
+max_ADC_value = 4095
 
 f = open("data.csv", "w")
-f.write(f"Input Voltage,DMM Voltage,ADC Value,Iteration Time\n")
+f.write(f"Input Voltage,DMM Voltage,Raw ADC Value,Adjusted ADC Value,Iteration Time\n")
 
 while True:
-    start_time = time.time() # Seconds
+    timer = hf.Timer()
     
-    # Set voltage
-    # We around to the thousandths place to ensure no floating point nonsense that messes up the afg, it wants nice decimal numbers, not 8 trailing zeroes
-    afg.write("SOURce1:VOLTage:LEVel:IMMediate:AMPLitude " + str(voltage))
-    afg.write("SOURce1:VOLTage:LEVel:IMMediate:OFFSet " + str(voltage_offset))
-    time.sleep(0.1)
-    afg.write("OUTPUT1:STATe ON") # NOTE: We are using output 1
-    time.sleep(0.1)
+    hf.set_afg_pulse_high_voltage(afg, voltage)
+    time.sleep(0.5) # Let the capacitor charge, this was for a specific test with the LVS_CURR_SENSE pin
     
-    time.sleep(0.5) # The capacitor on the LVC_CURR_SENSE line on the ECU needs time to charge, so we put a larger delay here than we should need
-    
-    serial_bus.write("s".encode()) # Send command to the STM32 to start reading
-    
-    intermediary_adc_values = []
-    for i in range(10):
-        # read the values from the serial bus
-        raw_data = serial_bus.readline().decode('utf-8', errors='ignore').replace("\x00", "") # The serial read function waits until it has received a line (\n)s
-        intermediary_adc_values.append(int(raw_data))
-    
-    raw_data = serial_bus.readline().decode('utf-8', errors='ignore').replace("\x00", "") # The serial read function waits until it has received a line (\n)
-    adc_value = int(raw_data)
+    raw_adc_value, adjusted_adc_value = hf.get_adc_value_from_stm32(serial_bus)
+    dmm_voltage = hf.get_dmm_voltage(dmm)
     
     dmm_voltage = float(dmm.query('MEASure:VOLTage:DC?')) # After the STM32 is done, read the DMM voltage
     
-    elapsed_time = time.time() - start_time # End timer
+    elapsed_time = timer.get_elapsed_time()
     
-    # Again, for the capacitor, we let it discharge before the next iteration, just being safe
-    afg.write("OUTPUT1:STATe OFF") # NOTE: We are using output 1
-    time.sleep(0.5)
+    raw_str_out = f"{voltage},{dmm_voltage},{raw_adc_value},{adjusted_adc_value},{elapsed_time}"
+    labeled_str_out = f"Input Voltage: {voltage}, DMM Voltage: {dmm_voltage}, Raw ADC Value: {raw_adc_value}, Iteration Time: {elapsed_time}"
     
-    str_out = f"{voltage}, {dmm_voltage}, {adc_value}, {elapsed_time}"
-    for i in intermediary_adc_values:
-        str_out += f", {i}"
-    
-    formatted_str_out = "Input Voltage: " + str(voltage) + ", DMM Voltage: " + str(dmm_voltage) + ", ADC Value: " + str(adc_value) + ", Iteration Time: " + str(elapsed_time)
-    for i in intermediary_adc_values:
-        formatted_str_out += f", {i}"
-    
-    print(formatted_str_out)
-    f.write(str_out + "\n")
+    print(labeled_str_out)
+    f.write(raw_str_out + "\n")
     
     # Round to thousandths place to avoid floating point nonsense
     voltage = round((voltage + voltage_step) * 1000) / 1000
     voltage_offset = round((voltage_offset + voltage_step / 2) * 1000) / 1000
     
     # Stop when dmm voltage reaches 3.3
-    if (dmm_voltage >= 3.3): break
+    if (dmm_voltage >= exit_dmm_voltage): break
+    
+    # Stop when we have 5 max ADC values
+    if (raw_adc_value >= max_ADC_value): max_ADC_values_count += 1
+    if (max_ADC_values_count >= exit_max_ADC_value): break
+    
     
 f.close()

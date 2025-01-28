@@ -113,7 +113,7 @@ int main(void)
 
     int adcValuesAveraged = 0;
     int adcValuesAdjusted = 0;
-    Get_Averaged_ADC_Values(hadc1, 50, 1, &adcValuesAveraged, &adcValuesAdjusted);
+    Get_Averaged_ADC_Values(hadc1, 200, 1, &adcValuesAveraged, &adcValuesAdjusted);
 
     Send_ADC_Values_Over_UART(huart5, adcValuesAveraged, adcValuesAdjusted);
 
