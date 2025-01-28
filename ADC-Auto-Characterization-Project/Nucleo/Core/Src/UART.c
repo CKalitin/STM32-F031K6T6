@@ -7,7 +7,7 @@
   */
 void Continue_On_UART_Receive(UART_HandleTypeDef uart){
   // The 's' character here is arbitrary
-  // We just pause the program until we see 's'
+  // We just pause the program until we see 's\n' received over uart
   memset(rx_buff, 0, sizeof(rx_buff));
   while (rx_buff[0] != 's'){
     memset(rx_buff, 0, sizeof(rx_buff));
