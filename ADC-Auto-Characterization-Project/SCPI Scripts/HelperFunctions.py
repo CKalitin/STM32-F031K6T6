@@ -20,11 +20,6 @@ def remove_chars(text, delete_chars):
         text = text.replace(char, "")
     return text
 
-def open_dmm(resource_id):
-    rm = pyvisa.ResourceManager()
-    dmm = rm.open_resource(resource_id)
-    return dmm
-
 def afg_setup_pulse_mode(afg):
     afg.write("*RST") # Reset instrument to the default state (sine wave)
     afg.write("*CLS") # Clear all event registers and queues
