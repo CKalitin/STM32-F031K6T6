@@ -23,7 +23,7 @@ void Play_Celebration_Lyrics() {
 
         HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, 0);
 
-        LCD_Send_Word(characters + index, word_len, word_delay_ms); // I'm actually fucking stupid, like no shit it's getting unsynced there's a 10ms delay here
+        LCD_Send_Word(characters + index, word_len, word_delay_ms);
 
         index += word_len;
     }
