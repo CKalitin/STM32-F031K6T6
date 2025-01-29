@@ -8,5 +8,8 @@ https://www.crystalfontz.com/products/document/964/CFAH1602XYYHJP_v2.0.pdf
 https://x.com/CKalitin/status/1865892778745708866  
 https://x.com/CKalitin/status/1864882097003073865  
 
-I wrote a blog post on the Auto Characterization Project:
+I wrote a blog post on the Auto Characterization Project:  
 https://ckalitin.github.io/projects/2024/12/29/scpi-auto-characterization.html
+
+And a blog post on doing some ADC Characterization testing:  
+https://ckalitin.github.io/projects/2024/12/27/esp32-adc-characterization.html
