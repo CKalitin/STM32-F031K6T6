@@ -63,17 +63,16 @@ static void MX_ADC_Init(void);
 
 void DMA_Callback(DMA_HandleTypeDef *hdma);
 
-void ADC_Callback_Half(DMA_HandleTypeDef *hadc);
-void ADC_Callback_Full(DMA_HandleTypeDef *hadc);
-
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-#define ADC_BUF_LEN 50
+#define ADC_BUF_LEN 512
 
 uint16_t adc_buf[ADC_BUF_LEN];
+
+char msg[100];
 
 /* USER CODE END 0 */
 
@@ -111,30 +110,24 @@ int main(void)
   MX_ADC_Init();
   /* USER CODE BEGIN 2 */
 
-  char msg[] = "lorem ipsum dolor sit amet\r\n";
-
   if (HAL_ADC_Start_DMA(&hadc, (uint32_t*)adc_buf, ADC_BUF_LEN) != HAL_OK)
   {
     sprintf(msg, "Error starting ADC DMA\r\n");
     // Handle error
     Error_Handler();
   }
-  //HAL_DMA_RegisterCallback(&hdma_adc, HAL_DMA_XFER_HALFCPLT_CB_ID, ADC_Callback_Half);
-  //HAL_DMA_RegisterCallback(&hdma_adc, HAL_DMA_XFER_CPLT_CB_ID, ADC_Callback_Full);
-  //HAL_DMA_RegisterCallback(&hdma_usart1_tx, HAL_DMA_XFER_HALFCPLT_CB_ID, DMA_Callback);
+
+  HAL_DMA_RegisterCallback(&hdma_usart1_tx, HAL_DMA_XFER_HALFCPLT_CB_ID, DMA_Callback);
+
+  huart1.Instance->CR3 |= USART_CR3_DMAT; // Enables DMA transmit bit
+  HAL_DMA_Start_IT(&hdma_usart1_tx, (uint32_t)msg, (uint32_t)&huart1.Instance->TDR, sizeof(msg));
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)//
+  while (1)
   {
-    // put first value of dma buffer into the msg
-    //sprintf(msg, "%d\r\n", adc_buf[0]);
-
-    //huart1.Instance->CR3 |= USART_CR3_DMAT; // Enables DMA transmit bit
-    //HAL_DMA_Start_IT(&hdma_usart1_tx, (uint32_t)msg, (uint32_t)&huart1.Instance->TDR, sizeof(msg));
-
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -146,7 +139,7 @@ int main(void)
     // toggle LED1
     //HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
     //HAL_Delay(500);
-	HAL_Delay(1);
+	  HAL_Delay(10);
   }
   /* USER CODE END 3 */
 }
@@ -214,7 +207,7 @@ static void MX_ADC_Init(void)
   /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
   */
   hadc.Instance = ADC1;
-  hadc.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
+  hadc.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc.Init.Resolution = ADC_RESOLUTION_12B;
   hadc.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc.Init.ScanConvMode = ADC_SCAN_DIRECTION_FORWARD;
@@ -336,15 +329,21 @@ void DMA_Callback(DMA_HandleTypeDef *hdma) {
 
   //huart1.Instance->CR3 &= ~USART_CR3_DMAT; // Disables DMA transmit bit
 
-  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+  //HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
 }
 
-void ADC_Callback_Half(DMA_HandleTypeDef *hdma) {
-  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
-}
-
-void ADC_Callback_Full(DMA_HandleTypeDef *hdma) {
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
   HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET);
+  memset(msg, 0, sizeof(msg));
+  sprintf(msg, "Comp %d, %d, %ld\r\n", adc_buf[0], adc_buf[256], HAL_GetTick());
+  HAL_DMA_Start_IT(&hdma_usart1_tx, (uint32_t)msg, (uint32_t)&huart1.Instance->TDR, sizeof(msg));
+}
+
+void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc) {
+  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
+  memset(msg, 0, sizeof(msg));
+  //sprintf(msg, "Half %d, %d, %ld\r\n", adc_buf[0], adc_buf[256], HAL_GetTick());
+  //HAL_DMA_Start_IT(&hdma_usart1_tx, (uint32_t)msg, (uint32_t)&huart1.Instance->TDR, sizeof(msg));
 }
 
 /* USER CODE END 4 */
