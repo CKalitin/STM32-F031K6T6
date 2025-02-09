@@ -22,6 +22,9 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+#include <string.h>
+#include <stdio.h>
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -41,8 +44,10 @@
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc;
+DMA_HandleTypeDef hdma_adc;
 
 UART_HandleTypeDef huart1;
+DMA_HandleTypeDef hdma_usart1_tx;
 
 /* USER CODE BEGIN PV */
 
@@ -51,14 +56,24 @@ UART_HandleTypeDef huart1;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_DMA_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_ADC_Init(void);
 /* USER CODE BEGIN PFP */
+
+void DMA_Callback(DMA_HandleTypeDef *hdma);
+
+void ADC_Callback_Half(DMA_HandleTypeDef *hadc);
+void ADC_Callback_Full(DMA_HandleTypeDef *hadc);
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+#define ADC_BUF_LEN 256
+
+uint16_t adc_buf[ADC_BUF_LEN];
 
 /* USER CODE END 0 */
 
@@ -91,27 +106,47 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_USART1_UART_Init();
   MX_ADC_Init();
   /* USER CODE BEGIN 2 */
+
+  char msg[] = "lorem ipsum dolor sit amet\r\n";
+
+  if (HAL_ADC_Start_DMA(&hadc, (uint32_t*)adc_buf, ADC_BUF_LEN) != HAL_OK)
+  {
+    sprintf(msg, "Error starting ADC DMA\r\n");
+    // Handle error
+    Error_Handler();
+  }
+  //HAL_DMA_RegisterCallback(&hdma_adc, HAL_DMA_XFER_HALFCPLT_CB_ID, ADC_Callback_Half);
+  //HAL_DMA_RegisterCallback(&hdma_adc, HAL_DMA_XFER_CPLT_CB_ID, ADC_Callback_Full);
+  //HAL_DMA_RegisterCallback(&hdma_usart1_tx, HAL_DMA_XFER_HALFCPLT_CB_ID, DMA_Callback);
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
+  while (1)//
   {
+    // put first value of dma buffer into the msg
+    //sprintf(msg, "%d\r\n", adc_buf[0]);
+
+    //huart1.Instance->CR3 |= USART_CR3_DMAT; // Enables DMA transmit bit
+    //HAL_DMA_Start_IT(&hdma_usart1_tx, (uint32_t)msg, (uint32_t)&huart1.Instance->TDR, sizeof(msg));
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
 
     // Send over uart
-    char msg[] = "Hello World!\r\n";
-    HAL_UART_Transmit(&huart1, (uint8_t*)msg, sizeof(msg), HAL_MAX_DELAY);
+    //char msg[] = "Hello World!\r\n";
+    //HAL_UART_Transmit(&huart1, (uint8_t*)msg, sizeof(msg), HAL_MAX_DELAY);
 
     // toggle LED1
-    HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
-    HAL_Delay(500);
+    //HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+    //HAL_Delay(500);
+	HAL_Delay(1);
   }
   /* USER CODE END 3 */
 }
@@ -188,11 +223,11 @@ static void MX_ADC_Init(void)
   hadc.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
   hadc.Init.LowPowerAutoWait = DISABLE;
   hadc.Init.LowPowerAutoPowerOff = DISABLE;
-  hadc.Init.ContinuousConvMode = DISABLE;
+  hadc.Init.ContinuousConvMode = ENABLE;
   hadc.Init.DiscontinuousConvMode = DISABLE;
   hadc.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
-  hadc.Init.DMAContinuousRequests = DISABLE;
+  hadc.Init.DMAContinuousRequests = ENABLE;
   hadc.Init.Overrun = ADC_OVR_DATA_PRESERVED;
   if (HAL_ADC_Init(&hadc) != HAL_OK)
   {
@@ -250,6 +285,25 @@ static void MX_USART1_UART_Init(void)
 }
 
 /**
+  * Enable DMA controller clock
+  */
+static void MX_DMA_Init(void)
+{
+
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA1_Channel1_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
+  /* DMA1_Channel2_3_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel2_3_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel2_3_IRQn);
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -279,6 +333,21 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+void DMA_Callback(DMA_HandleTypeDef *hdma) {
+
+  //huart1.Instance->CR3 &= ~USART_CR3_DMAT; // Disables DMA transmit bit
+
+  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+}
+
+void ADC_Callback_Half(DMA_HandleTypeDef *hdma) {
+  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET);
+}
+
+void ADC_Callback_Full(DMA_HandleTypeDef *hdma) {
+  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET);
+}
 
 /* USER CODE END 4 */
 
