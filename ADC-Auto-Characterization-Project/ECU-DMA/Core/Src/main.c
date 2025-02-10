@@ -41,6 +41,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
+DMA_HandleTypeDef hdma_adc1;
 
 UART_HandleTypeDef huart5;
 
@@ -51,6 +52,7 @@ UART_HandleTypeDef huart5;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_DMA_Init(void);
 static void MX_UART5_Init(void);
 static void MX_ADC1_Init(void);
 /* USER CODE BEGIN PFP */
@@ -91,16 +93,23 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_UART5_Init();
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
+
+  HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adcBuffer, sizeof(ADC_BUFFER_LENGTH));
+
+  // should length be in bytes or in number of elements?
+  // Answer from my expert friend: "It should be in bytes. The HAL_ADC_Start_DMA function takes the address of the buffer and the length of the buffer in bytes. The buffer is an array of 32-bit integers, so the length of the buffer in bytes is 128 * 4 = 512 bytes."
+  // lmao i love copilot
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
-	{
+  {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -112,14 +121,14 @@ int main(void)
 	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin); // Toggle the LED high when we're collecting or sending values
 
     int adcValuesAveraged = 0;
-    int adcValuesAdcAdjusted = 0;
+    int adcValuesADCAdjusted = 0;
     int adcValuesCurrentAdjusted = 0;
-    Get_Averaged_ADC_Values(hadc1, 200, 1, &adcValuesAveraged, &adcValuesAdcAdjusted, &adcValuesCurrentAdjusted);
+    Get_Averaged_ADC_Values(&adcValuesAveraged, &adcValuesADCAdjusted, &adcValuesCurrentAdjusted);
 
-    Send_ADC_Values_Over_UART(huart5, adcValuesAveraged, adcValuesAdcAdjusted, adcValuesCurrentAdjusted);
+    Send_ADC_Values_Over_UART(huart5, adcValuesAveraged, adcValuesADCAdjusted, adcValuesCurrentAdjusted);
 
 	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
-	}
+  }
   /* USER CODE END 3 */
 }
 
@@ -188,7 +197,7 @@ static void MX_ADC1_Init(void)
   */
   hadc1.Instance = ADC1;
   hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
-  hadc1.Init.ContinuousConvMode = DISABLE;
+  hadc1.Init.ContinuousConvMode = ENABLE;
   hadc1.Init.DiscontinuousConvMode = DISABLE;
   hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
@@ -243,6 +252,22 @@ static void MX_UART5_Init(void)
   /* USER CODE BEGIN UART5_Init 2 */
 
   /* USER CODE END UART5_Init 2 */
+
+}
+
+/**
+  * Enable DMA controller clock
+  */
+static void MX_DMA_Init(void)
+{
+
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA1_Channel1_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
 
 }
 
