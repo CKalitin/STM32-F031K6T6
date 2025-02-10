@@ -30,7 +30,7 @@ exit_max_ADC_value = 5 # Exit when 5 adc values have been at the max
 max_ADC_value = 4095
 
 f = open("data.csv", "w")
-f.write(f"Input Voltage,DMM Voltage,Raw ADC Value,Adjusted ADC Value,Iteration Time\n")
+f.write(f"Input Voltage,DMM Voltage,ADC Raw Value,ADC Adjusted Value, ADC Current Adjusted Value,Iteration Time\n")
 
 while True:
     timer = hf.Timer()
@@ -38,15 +38,15 @@ while True:
     hf.set_afg_pulse_high_voltage(afg, voltage)
     time.sleep(0.5) # Let the capacitor charge, this was for a specific test with the LVS_CURR_SENSE pin
     
-    raw_adc_value, adjusted_adc_value = hf.get_adc_value_from_stm32(serial_bus)
+    adc_raw_value, adc_adjusted_value, adc_current_adjusted_value = hf.get_adc_value_from_stm32(serial_bus)
     dmm_voltage = hf.get_dmm_voltage(dmm)
     
     dmm_voltage = float(dmm.query('MEASure:VOLTage:DC?')) # After the STM32 is done, read the DMM voltage
     
     elapsed_time = timer.get_elapsed_time()
     
-    raw_str_out = f"{voltage},{dmm_voltage},{raw_adc_value},{adjusted_adc_value},{elapsed_time}"
-    labeled_str_out = f"Input Voltage: {voltage}, DMM Voltage: {dmm_voltage}, Raw ADC Value: {raw_adc_value}, Iteration Time: {elapsed_time}"
+    raw_str_out = f"{voltage},{dmm_voltage},{adc_raw_value},{adc_adjusted_value},{adc_current_adjusted_value},{elapsed_time}"
+    labeled_str_out = f"Input Voltage: {voltage}, DMM Voltage: {dmm_voltage}, ADC Raw Value: {adc_raw_value}, ADC Adjusted Value {adc_adjusted_value}, ADC Current Adjusted Value {adc_current_adjusted_value}, Iteration Time: {elapsed_time}"
     
     print(labeled_str_out)
     f.write(raw_str_out + "\n")
@@ -59,7 +59,7 @@ while True:
     if (dmm_voltage >= exit_dmm_voltage): break
     
     # Stop when we have 5 max ADC values
-    if (raw_adc_value >= max_ADC_value): max_ADC_values_count += 1
+    if (adc_raw_value >= max_ADC_value): max_ADC_values_count += 1
     if (max_ADC_values_count >= exit_max_ADC_value): break
     
     

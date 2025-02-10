@@ -24,20 +24,20 @@ dmm_ammeter = rm.open_resource('USB0::0x05E6::0x2110::8006144::INSTR')
 serial_bus = hf.open_serial("COM7", 115200)
 
 f = open("data.csv", "w")
-f.write(f"DMM Voltage,DMM Current,Raw ADC Value,Adjusted ADC Value,Iteration Time,Current Time\n")
+f.write(f"DMM Voltage,DMM Current,ADC Raw Value,ADC Adjusted Value,ADC Current Adjusted Value,Iteration Time,Current Time\n")
 
 while True:
     timer = hf.Timer() # Python garbage collector should deal with it
     
-    raw_adc_value, adjusted_adc_value = hf.get_adc_value_from_stm32(serial_bus)
+    raw_adc_value, adc_adjusted_value, adc_current_adjusted_value = hf.get_adc_value_from_stm32(serial_bus)
     dmm_voltage = hf.get_dmm_voltage(dmm_voltmeter)
     dmm_current = hf.get_dmm_current(dmm_ammeter)
     
     current_time = datetime.now().strftime("%H:%M:%S")+ '.' + datetime.now().strftime('%f')[:3] # Get time in HH:MM:SS.sss format
     elapsed_time = timer.get_elapsed_time()
     
-    raw_str_out = f"{dmm_voltage},{dmm_current},{raw_adc_value},{adjusted_adc_value},{elapsed_time}, {current_time}"
-    labeled_str_out = f"DMM Voltage: {dmm_voltage}, DMM Current: {dmm_current}, Raw ADC Value: {raw_adc_value}, Adjusted ADC Value {adjusted_adc_value}, Iteration Time: {elapsed_time}, Current Time: {current_time}"
+    raw_str_out = f"{dmm_voltage},{dmm_current},{raw_adc_value},{adc_adjusted_value},{adc_current_adjusted_value},{elapsed_time},{current_time}"
+    labeled_str_out = f"DMM Voltage: {dmm_voltage}, DMM Current: {dmm_current}, ADC Raw Value: {raw_adc_value}, ADC Adjusted Value {adc_adjusted_value}, ADC Current Adjusted Value {adc_current_adjusted_value}, Iteration Time: {elapsed_time}, Current Time: {current_time}"
     
     print(labeled_str_out)
     f.write(raw_str_out + "\n")
