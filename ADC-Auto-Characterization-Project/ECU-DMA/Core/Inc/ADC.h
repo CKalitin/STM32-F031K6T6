@@ -1,6 +1,6 @@
 #include "main.h"
 
-#define ADC_BUFFER_LENGTH 512
+#define ADC_BUFFER_LENGTH 50
 
 uint32_t adcBuffer[ADC_BUFFER_LENGTH];
 

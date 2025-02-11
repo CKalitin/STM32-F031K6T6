@@ -1,0 +1,9 @@
+../Core/Src/main.c:91:5:main	1
+../Core/Src/main.c:159:6:SystemClock_Config	4
+../Core/Src/main.c:203:13:MX_ADC1_Init	3
+../Core/Src/main.c:250:13:MX_UART5_Init	2
+../Core/Src/main.c:283:13:MX_GPIO_Init	1
+../Core/Src/main.c:315:6:Continue_On_UART_Receive	2
+../Core/Src/main.c:331:6:Send_ADC_Values_Over_UART	1
+../Core/Src/main.c:343:6:Get_Averaged_ADC_Values	1
+../Core/Src/main.c:362:6:Error_Handler	1

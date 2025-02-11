@@ -27,7 +27,7 @@ def afg_setup_pulse_mode(afg):
     time.sleep(wait_time_between_commands) # Wait until after reset/clear is complete, give the afg some time to breathe
     
     afg.write("SOURce1:FUNCtion:SHAPe PULSe") # Pulse function mode
-    
+
     time.sleep(wait_time_between_commands) # Wait until after reset/clear is complete, give the afg some time to breathe
     
     afg.write("SOURce1:PULSe:DCYC 99.9") # Max 99.9% duty cycle

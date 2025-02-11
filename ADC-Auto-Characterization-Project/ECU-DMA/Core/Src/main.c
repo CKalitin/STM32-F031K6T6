@@ -110,6 +110,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -197,7 +198,7 @@ static void MX_ADC1_Init(void)
   */
   hadc1.Instance = ADC1;
   hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
-  hadc1.Init.ContinuousConvMode = ENABLE;
+  hadc1.Init.ContinuousConvMode = DISABLE;
   hadc1.Init.DiscontinuousConvMode = DISABLE;
   hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
@@ -302,6 +303,33 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+// adc dma half complete callback
+// We can't sum in the Get_Averaged_ADC_Values function because DMA would to writing into some part of the buffer at the same time
+// REMEMBER!!!! This function might not be allowed to be outside of main.c, so if you run into issues during testing, that's probably it
+void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc){
+  // send message over uart
+  HAL_UART_Transmit(&huart5, (uint8_t*)"Half complete\n", 14, 1000);
+
+  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, 1);
+  int adcValuesSum = 0;
+  for (int i = 0; i < ADC_BUFFER_LENGTH / 2; i++){
+    adcValuesSum += adcBuffer[i];
+  }
+  adcAveragedValue = adcValuesSum / (ADC_BUFFER_LENGTH / 2);
+}
+
+// adc dma full complete callback
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
+  HAL_UART_Transmit(&huart5, (uint8_t*)"Comp complete\n", 14, 1000);
+
+  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, 1);
+  int adcValuesSum = 0;
+  for (int i = ADC_BUFFER_LENGTH/2; i < ADC_BUFFER_LENGTH; i++){
+    adcValuesSum += adcBuffer[i];
+  }
+  adcAveragedValue = adcValuesSum / (ADC_BUFFER_LENGTH / 2);
+}
 
 /* USER CODE END 4 */
 
