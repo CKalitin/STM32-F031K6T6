@@ -21,8 +21,8 @@ void Continue_On_UART_Receive(UART_HandleTypeDef uart){
   * @param uart: UART_HandleTypeDef object
   * @retval None
   */
-void Send_ADC_Values_Over_UART(UART_HandleTypeDef uart, int adcValuesAveraged, int adcValuesAdjusted){
+void Send_ADC_Values_Over_UART(UART_HandleTypeDef uart, int adcValuesAveraged, int adcValuesAdcAdjusted, int adcValuesCurrentAdjusted){
   memset(tx_buff, 0, sizeof(tx_buff));
-  sprintf(tx_buff, "%d, %d\n\r", adcValuesAveraged, adcValuesAdjusted);
+  sprintf(tx_buff, "%d, %d, %d\n\r", adcValuesAveraged, adcValuesAdcAdjusted, adcValuesCurrentAdjusted);
   HAL_UART_Transmit(&uart, (uint8_t*)tx_buff, sizeof(tx_buff), 1000);
 }

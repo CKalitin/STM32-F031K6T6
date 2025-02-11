@@ -9,7 +9,7 @@
   * @param adcValuesAdjusted: Pointer to the averaged ADC value, adjusted for error
   * @retval None
   */
-void Get_Averaged_ADC_Values(ADC_HandleTypeDef hadc, int numSamples, int msPerObv, int* adcValuesAveraged, int* adcValuesAdjusted){
+void Get_Averaged_ADC_Values(ADC_HandleTypeDef hadc, int numSamples, int msPerObv, int* adcValuesAveraged, int* adcValuesAdcAdjusted, int* adcValuesCurrentAdjusted){
   int adcValuesSum = 0;
 
   HAL_ADC_Start(&hadc);
@@ -29,5 +29,6 @@ void Get_Averaged_ADC_Values(ADC_HandleTypeDef hadc, int numSamples, int msPerOb
   int adcError = -75.8 + 0.0222 * (*adcValuesAveraged); // This is a predetermined error polynomial
   int currentSensorADCError = 91.6 - 0.04132 * (*adcValuesAveraged); // This is the predetermined erroy polynomial for the current sensor
 
-  *adcValuesAdjusted = *adcValuesAveraged - adcError - currentSensorADCError; // Set the other pointer output
+  *adcValuesAdcAdjusted = *adcValuesAveraged - adcError; // Set the other pointer output
+  *adcValuesCurrentAdjusted = *adcValuesAveraged - adcError - currentSensorADCError; // Set the other pointer output
 }

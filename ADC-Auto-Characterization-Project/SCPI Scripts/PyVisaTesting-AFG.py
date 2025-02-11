@@ -7,7 +7,7 @@ rm = pyvisa.ResourceManager('@py')
 print(rm.list_resources())
 print(rm)
 
-instrument = rm.open_resource('USB0::1689::851::1516313::0::INSTR')
+instrument = rm.open_resource('USB0::1510::8464::8006144::0::INSTR')
 print(instrument.query('*IDN?'))
 
 # Guide: https://github.com/pyvisa/pyvisa/issues/503
