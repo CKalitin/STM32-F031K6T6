@@ -60,8 +60,8 @@ all: main-build
 main-build: DMA-PLEASE-WORK.elf secondary-outputs
 
 # Tool invocations
-DMA-PLEASE-WORK.elf DMA-PLEASE-WORK.map: $(OBJS) $(USER_OBJS) C:\Users\Chris\Documents\Git\STM32-F031K6T6\ADC-Auto-Characterization-Project\DMA-PLEASE-WORK\STM32F103RCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "DMA-PLEASE-WORK.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\Chris\Documents\Git\STM32-F031K6T6\ADC-Auto-Characterization-Project\DMA-PLEASE-WORK\STM32F103RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DMA-PLEASE-WORK.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+DMA-PLEASE-WORK.elf DMA-PLEASE-WORK.map: $(OBJS) $(USER_OBJS) C:\_Dev\STM32-F031K6T6\ADC-Auto-Characterization-Project\DMA-PLEASE-WORK\STM32F103RCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "DMA-PLEASE-WORK.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\_Dev\STM32-F031K6T6\ADC-Auto-Characterization-Project\DMA-PLEASE-WORK\STM32F103RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DMA-PLEASE-WORK.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

@@ -138,7 +138,7 @@ int main(void)
     // This way, from the Python script we can command the STM32 chip operate only when we tell it to
     Continue_On_UART_Receive(huart5);
 
-	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin); // Toggle the LED high when we're collecting or sending values
+	HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin); // Toggle the LED high when we're collecting or sending values
 
     int adcValuesAveraged = 0;
     int adcValuesADCAdjusted = 0;
@@ -147,7 +147,7 @@ int main(void)
 
     Send_ADC_Values_Over_UART(huart5, adcValuesAveraged, adcValuesADCAdjusted, adcValuesCurrentAdjusted);
 
-	  HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+	HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
   }
   /* USER CODE END 3 */
 }
