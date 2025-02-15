@@ -1,7 +1,7 @@
 #include "ADC.h"
 
-uint32_t adcBuffer[ADC_BUFFER_LENGTH];
-uint32_t adcAveragedValue;
+uint16_t adcBuffer[ADC_BUFFER_LENGTH];
+uint16_t adcAveragedValue;
 
 /**
   * @brief Take numSamples ADC values, average them, then return both raw and error adjusted values

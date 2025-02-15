@@ -103,7 +103,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   HAL_TIM_Base_Start(&htim3);  // Start the timer
-  HAL_ADC_Start_DMA(&hadc1, (uint16_t*)adcBuffer, sizeof(adcBuffer));
+  HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adcBuffer, sizeof(adcBuffer));
 
   /* USER CODE END 2 */
 

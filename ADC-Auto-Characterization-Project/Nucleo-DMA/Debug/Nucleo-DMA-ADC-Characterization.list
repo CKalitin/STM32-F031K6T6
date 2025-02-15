@@ -827,7 +827,7 @@ int main(void)
   HAL_TIM_Base_Start(&htim3);  // Start the timer
  8000902:	4825      	ldr	r0, [pc, #148]	@ (8000998 <main+0xb8>)
  8000904:	f002 f962 	bl	8002bcc <HAL_TIM_Base_Start>
-  HAL_ADC_Start_DMA(&hadc1, (uint16_t*)adcBuffer, sizeof(adcBuffer));
+  HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adcBuffer, sizeof(adcBuffer));
  8000908:	2264      	movs	r2, #100	@ 0x64
  800090a:	4924      	ldr	r1, [pc, #144]	@ (800099c <main+0xbc>)
  800090c:	4824      	ldr	r0, [pc, #144]	@ (80009a0 <main+0xc0>)
@@ -1164,9 +1164,9 @@ static void MX_TIM3_Init(void)
  8000af2:	4b1a      	ldr	r3, [pc, #104]	@ (8000b5c <MX_TIM3_Init+0x94>)
  8000af4:	2200      	movs	r2, #0
  8000af6:	609a      	str	r2, [r3, #8]
-  htim3.Init.Period = 1-1;
+  htim3.Init.Period = 1;
  8000af8:	4b18      	ldr	r3, [pc, #96]	@ (8000b5c <MX_TIM3_Init+0x94>)
- 8000afa:	2200      	movs	r2, #0
+ 8000afa:	2201      	movs	r2, #1
  8000afc:	60da      	str	r2, [r3, #12]
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
  8000afe:	4b17      	ldr	r3, [pc, #92]	@ (8000b5c <MX_TIM3_Init+0x94>)
