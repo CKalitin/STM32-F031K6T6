@@ -17,8 +17,8 @@ print(rm.list_resources())
 
 # Open arbitrary function generator & digital multimeter
 # NOTE: the USB device/resource tags below will be different for you, that's why we print the resources above, see wiki for more info
-afg = rm.open_resource('USB0::1510::8464::8006144::0::INSTR')
-dmm = rm.open_resource('USB0::1689::851::1516308::0::INSTR')
+afg = rm.open_resource('USB0::1689::851::1516308::0::INSTR')
+dmm = rm.open_resource('USB0::1510::8464::8005314::0::INSTR')
 
 # Setup the afg to output a pulse with a 99.9% duty cycle and period of 1000000s
 hf.afg_setup_pulse_mode(afg)
@@ -29,6 +29,7 @@ serial_bus = hf.open_serial("COM7", 115200)
 
 voltage = 0.1
 voltage_step = 0.1
+voltage_offset = 0.05
 
 exit_dmm_voltage = 3.3 # When the DMM hits this value, we stop
 
@@ -60,16 +61,16 @@ while True:
     print(labeled_str_out)
     f.write(raw_str_out + "\n")
     
-    # Round to thousandths place to avoid floating point nonsense
-    voltage = round((voltage + voltage_step) * 1000) / 1000
-    voltage_offset = round((voltage_offset + voltage_step / 2) * 1000) / 1000
-    
     # Stop when dmm voltage reaches 3.3
     if (dmm_voltage >= exit_dmm_voltage): break
     
     # Stop when we have 5 max ADC values
     if (adc_raw_value >= max_ADC_value): max_ADC_values_count += 1
     if (max_ADC_values_count >= exit_max_ADC_value): break
+    
+    # Round to thousandths place to avoid floating point nonsense
+    voltage = round((voltage + voltage_step) * 1000) / 1000
+    voltage_offset = round((voltage_offset + voltage_step / 2) * 1000) / 1000
     
     
 f.close()

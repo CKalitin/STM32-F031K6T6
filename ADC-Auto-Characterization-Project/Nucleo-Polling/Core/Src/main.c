@@ -95,11 +95,6 @@ int main(void)
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
 
-  while (1){
-    // uart
-    HAL_UART_Transmit(&huart2, (uint8_t *)"Hello World!\r\n", 14, 1000);
-  }
-
   /* USER CODE END 2 */
 
   /* Infinite loop */

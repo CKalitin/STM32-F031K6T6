@@ -242,7 +242,7 @@ static void MX_TIM3_Init(void)
 
   /* USER CODE END TIM3_Init 1 */
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 4800-1;
+  htim3.Init.Prescaler = 12000-1;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim3.Init.Period = 1;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -346,6 +346,26 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+// adc dma half complete callback
+// We can't sum in the Get_Averaged_ADC_Values function because DMA would to writing into some part of the buffer at the same time
+// REMEMBER!!!! This function might not be allowed to be outside of main.c, so if you run into issues during testing, that's probably it
+void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc){
+  int adcValuesSum = 0;
+  for (int i = 0; i < ADC_BUFFER_LENGTH / 2; i++){
+    adcValuesSum += adcBuffer[i];
+  }
+  adcAveragedValue = adcValuesSum / (ADC_BUFFER_LENGTH / 2);
+}
+
+// adc dma full complete callback
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
+  int adcValuesSum = 0;
+  for (int i = ADC_BUFFER_LENGTH/2; i < ADC_BUFFER_LENGTH; i++){
+    adcValuesSum += adcBuffer[i];
+  }
+  adcAveragedValue = adcValuesSum / (ADC_BUFFER_LENGTH / 2);
+}
 
 /* USER CODE END 4 */
 

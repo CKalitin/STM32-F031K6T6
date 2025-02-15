@@ -19,12 +19,13 @@ print(rm.list_resources())
 
 # Open arbitrary function generator & digital multimeter
 # NOTE: the USB device/resource tags below will be different for you, that's why we print the resources above, see wiki for more info
-dmm = rm.open_resource('USB0::1510::8464::8006144::0::INSTR')
+dmm = rm.open_resource('USB0::1510::8464::8005314::0::INSTR')
 
 serial_bus = hf.open_serial("COM7", 115200)
 
 voltage = 0.1
 voltage_step = 0.1
+voltage_offset = 0.05
 
 exit_dmm_voltage = 3.3 # When the DMM hits this value, we stop
 
@@ -38,21 +39,13 @@ f.write(f"Input Voltage,DMM Voltage,ADC Raw Value,ADC Adjusted Value, ADC Curren
 while True:
     timer = hf.Timer()
     
-    time.sleep(1) # This gives me time to click the PSU voltage up button manually after seeing the string printed
-    
-    print("Line 39")
+    time.sleep(0.75) # This gives me time to click the PSU voltage up button manually after seeing the string printed
     
     adc_raw_value, adc_adjusted_value, adc_current_adjusted_value = hf.get_adc_value_from_stm32(serial_bus)
     
-    print("Line 43")
-    
     dmm_voltage = hf.get_dmm_voltage(dmm)
     
-    print("Line 46")
-    
     dmm_voltage = float(dmm.query('MEASure:VOLTage:DC?')) # After the STM32 is done, read the DMM voltage
-    
-    print("Line 50")
     
     current_time = datetime.now().strftime("%H:%M:%S")+ '.' + datetime.now().strftime('%f')[:3] # Get time in HH:MM:SS.sss format
     

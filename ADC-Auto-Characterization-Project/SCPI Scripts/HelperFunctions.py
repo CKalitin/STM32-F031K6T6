@@ -4,7 +4,7 @@ import pyvisa
 import serial
 import time
 
-wait_time_between_commands = 0.05 # Delay between commands to let the very old hardware process it
+wait_time_between_commands = 0.5 # Delay between commands to let the very old hardware process it
 
 class Timer:
     def __init__(self):
@@ -78,6 +78,6 @@ def open_serial(port, baudrate):
 def get_adc_value_from_stm32(serial_bus):
     serial_bus.write("s".encode()) # This commands the STM32 to start reading ADC values and return the average
     uart_data = serial_bus.readline().decode("utf-8") # readline() waits for a '\n' and pauses the program until we've received it
-    uart_data = remove_chars(uart_data, ["\n", "\x00", " "]) # Remove all bullshit from the string
+    uart_data = remove_chars(uart_data, ["\n", "\x00", " ", "\r"]) # Remove all bullshit from the string
     raw_adc_value, adc_adjusted_value, adc_current_adjusted_value = uart_data.split(",")
     return int(raw_adc_value), int(adc_adjusted_value), int(adc_current_adjusted_value) # Return the values as a ints

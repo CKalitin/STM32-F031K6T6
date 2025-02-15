@@ -60,8 +60,8 @@ all: main-build
 main-build: ECU-DMA-ADC-Auto-Characterization.elf secondary-outputs
 
 # Tool invocations
-ECU-DMA-ADC-Auto-Characterization.elf ECU-DMA-ADC-Auto-Characterization.map: $(OBJS) $(USER_OBJS) C:\_Dev\STM32-F031K6T6\ADC-Auto-Characterization-Project\ECU-DMA\STM32F103RCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "ECU-DMA-ADC-Auto-Characterization.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\_Dev\STM32-F031K6T6\ADC-Auto-Characterization-Project\ECU-DMA\STM32F103RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ECU-DMA-ADC-Auto-Characterization.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+ECU-DMA-ADC-Auto-Characterization.elf ECU-DMA-ADC-Auto-Characterization.map: $(OBJS) $(USER_OBJS) C:\Users\Chris\Documents\Git\STM32-F031K6T6\ADC-Auto-Characterization-Project\ECU-DMA\STM32F103RCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "ECU-DMA-ADC-Auto-Characterization.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\Chris\Documents\Git\STM32-F031K6T6\ADC-Auto-Characterization-Project\ECU-DMA\STM32F103RCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ECU-DMA-ADC-Auto-Characterization.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

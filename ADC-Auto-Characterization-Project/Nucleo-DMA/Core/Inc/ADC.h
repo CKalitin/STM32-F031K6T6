@@ -1,7 +1,7 @@
 #include "stm32f1xx_hal.h"
 #include <stdint.h>
 
-#define ADC_BUFFER_LENGTH 50
+#define ADC_BUFFER_LENGTH 100
 
 // Variable declarations (extern = declaration, definition in .c file)
 extern uint16_t adcBuffer[ADC_BUFFER_LENGTH];
