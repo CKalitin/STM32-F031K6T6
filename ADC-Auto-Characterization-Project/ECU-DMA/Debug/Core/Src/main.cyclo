@@ -5,6 +5,6 @@
 ../Core/Src/main.c:280:13:MX_UART5_Init	2
 ../Core/Src/main.c:311:13:MX_DMA_Init	1
 ../Core/Src/main.c:329:13:MX_GPIO_Init	1
-../Core/Src/main.c:360:6:HAL_ADC_ConvHalfCpltCallback	2
-../Core/Src/main.c:373:6:HAL_ADC_ConvCpltCallback	2
-../Core/Src/main.c:390:6:Error_Handler	1
+../Core/Src/main.c:359:6:HAL_ADC_ConvHalfCpltCallback	2
+../Core/Src/main.c:368:6:HAL_ADC_ConvCpltCallback	2
+../Core/Src/main.c:382:6:Error_Handler	1

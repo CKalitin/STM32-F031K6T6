@@ -18,8 +18,8 @@ print(rm.list_resources())
 # 23-Oct-2018 - USB0::0x05E6::0x2110::8006144::INSTR
 # 25-Sep-2018 - USB0::0x05E6::0x2110::8005314::INSTR
 
-dmm_voltmeter = rm.open_resource('USB0::0x05E6::0x2110::8005314::INSTR')
-dmm_ammeter = rm.open_resource('USB0::0x05E6::0x2110::8006144::INSTR')
+dmm_voltmeter = rm.open_resource('USB0::0x05E6::0x2110::8006144::INSTR')
+dmm_ammeter = rm.open_resource('USB0::0x05E6::0x2110::8005314::INSTR')
 
 serial_bus = hf.open_serial("COM7", 115200)
 

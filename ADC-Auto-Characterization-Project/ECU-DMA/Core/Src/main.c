@@ -103,7 +103,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   HAL_TIM_Base_Start(&htim3); // Start the timer that triggers the ADC
-  HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adcBuffer, sizeof(ADC_BUFFER_LENGTH));
+  HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adcBuffer, sizeof(adcBuffer));
 
   // should length be in bytes or in number of elements?
   // Answer from my expert friend: "It should be in bytes. The HAL_ADC_Start_DMA function takes the address of the buffer and the length of the buffer in bytes. The buffer is an array of 32-bit integers, so the length of the buffer in bytes is 128 * 4 = 512 bytes."
@@ -204,7 +204,7 @@ static void MX_ADC1_Init(void)
   hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
   hadc1.Init.ContinuousConvMode = DISABLE;
   hadc1.Init.DiscontinuousConvMode = DISABLE;
-  hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc1.Init.ExternalTrigConv = ADC_EXTERNALTRIGCONV_T3_TRGO;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc1.Init.NbrOfConversion = 1;
   if (HAL_ADC_Init(&hadc1) != HAL_OK)
@@ -214,7 +214,7 @@ static void MX_ADC1_Init(void)
 
   /** Configure Regular Channel
   */
-  sConfig.Channel = ADC_CHANNEL_9;
+  sConfig.Channel = ADC_CHANNEL_14;
   sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
@@ -246,7 +246,7 @@ static void MX_TIM3_Init(void)
 
   /* USER CODE END TIM3_Init 1 */
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 4800-1;
+  htim3.Init.Prescaler = 9600-1;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim3.Init.Period = 1;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -334,7 +334,6 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
@@ -358,10 +357,6 @@ static void MX_GPIO_Init(void)
 // We can't sum in the Get_Averaged_ADC_Values function because DMA would to writing into some part of the buffer at the same time
 // REMEMBER!!!! This function might not be allowed to be outside of main.c, so if you run into issues during testing, that's probably it
 void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc){
-  // send message over uart
-  HAL_UART_Transmit(&huart5, (uint8_t*)"Half complete\n", 14, 1000);
-
-  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, 1);
   int adcValuesSum = 0;
   for (int i = 0; i < ADC_BUFFER_LENGTH / 2; i++){
     adcValuesSum += adcBuffer[i];
@@ -371,9 +366,6 @@ void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc){
 
 // adc dma full complete callback
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc){
-  HAL_UART_Transmit(&huart5, (uint8_t*)"Comp complete\n", 14, 1000);
-
-  HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, 1);
   int adcValuesSum = 0;
   for (int i = ADC_BUFFER_LENGTH/2; i < ADC_BUFFER_LENGTH; i++){
     adcValuesSum += adcBuffer[i];

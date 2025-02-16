@@ -27,14 +27,14 @@ voltage = 0.1
 voltage_step = 0.1
 voltage_offset = 0.05
 
-exit_dmm_voltage = 3.3 # When the DMM hits this value, we stop
+exit_dmm_voltage = 3.5 # When the DMM hits this value, we stop
 
 max_ADC_values_count = 0 # When there are >5 max ADC values (4095), we stop
 exit_max_ADC_value = 5 # Exit when 5 adc values have been at the max
 max_ADC_value = 4095
 
 f = open("data.csv", "w")
-f.write(f"Input Voltage,DMM Voltage,ADC Raw Value,ADC Adjusted Value, ADC Current Adjusted Value,Iteration Time,Current Time\n")
+f.write(f"Input Voltage,DMM Voltage,ADC Raw Value,ADC Adjusted Value,ADC Current Adjusted Value,Iteration Time,Current Time\n")
 
 while True:
     timer = hf.Timer()
