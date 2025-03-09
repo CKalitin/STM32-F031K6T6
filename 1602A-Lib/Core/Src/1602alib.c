@@ -1,7 +1,7 @@
 #include "1602alib.h"
 
 void LCD_Init() {
-	HAL_GPIO_WritePin(POWER_GPIO_Port, POWER_Pin, 1); // Power up display
+	//HAL_GPIO_WritePin(POWER_GPIO_Port, POWER_Pin, 1); // Power up display
 	HAL_Delay(40); // Appendix C Page 11 of the datasheet for delay length
 
 	LCD_Send(0, 0b00000010); // Set to 4-bit operation
@@ -42,6 +42,7 @@ void LCD_Send(uint8_t RS_Pin_value, uint8_t data){
 void LCD_Pulse_E_Pin() {
 	// The display reads in the values from the data pins when it detects the falling edge of the E signal
 	HAL_GPIO_WritePin(E_GPIO_Port, E_Pin, 1);
+	HAL_Delay(E_Pin_Pulse_Delay); // you could get by without this line
 	HAL_GPIO_WritePin(E_GPIO_Port, E_Pin, 0);
 
   // After testing various delays, this one was found to be necessary

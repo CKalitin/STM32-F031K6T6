@@ -3,7 +3,7 @@
 
 #include <string.h>
 
-#define E_Pin_Pulse_Delay 1 // ms
+#define E_Pin_Pulse_Delay 500 // ms
 
 // Init & Sending Bits
 void LCD_Init();
