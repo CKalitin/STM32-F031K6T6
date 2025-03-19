@@ -3,7 +3,7 @@
 
 #include <string.h>
 
-#define E_Pin_Pulse_Delay 500 // ms
+#define E_Pin_Pulse_Delay 5 // ms
 
 // Init & Sending Bits
 void LCD_Init();
@@ -18,6 +18,9 @@ void LCD_Set_Cursor_Pos(uint8_t pos);
 void LCD_Send_Word(char *str, uint8_t size, uint32_t char_delay_ms);
 void LCD_Send_Char_Array_At_Cursor(uint8_t *arr, uint8_t size, uint32_t char_delay_ms);
 void LCD_Char_Array_To_Uint8(char *c, uint8_t *u, uint8_t size);
+
+// Debugging
+void Enable_All_Pins();
 
 // 0-31, where 0 is char 1 on line 1 and 16 char 1 on line 2
 uint8_t current_position;

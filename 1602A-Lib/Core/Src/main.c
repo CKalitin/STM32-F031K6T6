@@ -90,26 +90,9 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
-  // while (1) {
-  //   // enable all pins
-  //   HAL_GPIO_WritePin(D0_GPIO_Port, D0_Pin, 1);
-  //   HAL_GPIO_WritePin(D1_GPIO_Port, D1_Pin, 1);
-  //   HAL_GPIO_WritePin(D2_GPIO_Port, D2_Pin, 1);
-  //   HAL_GPIO_WritePin(D3_GPIO_Port, D3_Pin, 1);
-  //   HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, 1);
-  //   HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, 1);
-  //   HAL_GPIO_WritePin(D6_GPIO_Port, D6_Pin, 1);
-  //   HAL_GPIO_WritePin(D7_GPIO_Port, D7_Pin, 1);
-  //   HAL_GPIO_WritePin(E_GPIO_Port, E_Pin, 1);
-  //   HAL_GPIO_WritePin(RS_GPIO_Port, RS_Pin, 1);
-  //   HAL_GPIO_WritePin(RW_GPIO_Port, RW_Pin, 1);
-  //   HAL_GPIO_WritePin(POWER_GPIO_Port, POWER_Pin, 1);
-  //   HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, 1);
-  //   HAL_Delay(1000);
-  // }
-
   LCD_Init();
   Play_Celebration_Lyrics();
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
