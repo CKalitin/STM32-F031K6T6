@@ -1,8 +1,9 @@
 ../Core/Src/1602alib.c:3:6:LCD_Init	1
-../Core/Src/1602alib.c:16:6:LCD_Send	1
-../Core/Src/1602alib.c:42:6:LCD_Pulse_E_Pin	1
-../Core/Src/1602alib.c:52:6:LCD_Clear_Display	1
-../Core/Src/1602alib.c:57:6:LCD_Send_Word	5
-../Core/Src/1602alib.c:96:6:LCD_Send_Char_Array_At_Cursor	2
-../Core/Src/1602alib.c:104:6:LCD_Set_Cursor_Pos	2
-../Core/Src/1602alib.c:117:6:LCD_Char_Array_To_Uint8	3
+../Core/Src/1602alib.c:19:6:LCD_Send	1
+../Core/Src/1602alib.c:45:6:LCD_Pulse_E_Pin	1
+../Core/Src/1602alib.c:56:6:LCD_Clear_Display	1
+../Core/Src/1602alib.c:61:6:LCD_Send_Word	5
+../Core/Src/1602alib.c:100:6:LCD_Send_Char_Array_At_Cursor	2
+../Core/Src/1602alib.c:108:6:LCD_Set_Cursor_Pos	2
+../Core/Src/1602alib.c:121:6:LCD_Char_Array_To_Uint8	3
+../Core/Src/1602alib.c:131:6:Enable_All_Pins	1

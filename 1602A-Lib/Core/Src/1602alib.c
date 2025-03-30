@@ -3,7 +3,7 @@
 void LCD_Init() {
 	HAL_GPIO_WritePin(RW_GPIO_Port, RW_Pin, 0); // Write R/W pin low
 
-	HAL_GPIO_WritePin(POWER_GPIO_Port, POWER_Pin, 1); // Power up display
+	HAL_GPIO_WritePin(POWER_GPIO_Port, POWER_Pin, 0); // Power up display
 
 	HAL_Delay(40); // Appendix C Page 11 of the datasheet for delay length
 
