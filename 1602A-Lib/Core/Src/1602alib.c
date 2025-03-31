@@ -1,37 +1,55 @@
 #include "1602alib.h"
 
-void LCD_Init() {
+// Define global variables
+uint8_t current_position = 0;
+
+void LCD_Init(){
+	// Just in case something was there before
+	// Eg. If reset is pressed and the display is still powered, we need to clear the display
+	// See https://x.com/CKalitin/status/1906462865516851547
+	LCD_Clear_Display();
+
 	HAL_GPIO_WritePin(RW_GPIO_Port, RW_Pin, 0); // Write R/W pin low
 
 	HAL_GPIO_WritePin(POWER_GPIO_Port, POWER_Pin, 0); // Power up display
 
-	HAL_Delay(40); // Appendix C Page 11 of the datasheet for delay length
+ 	// Appendix C Page 11 of the datasheet for post power up delay
+	// https://www.crystalfontz.com/products/document/964/CFAH1602XYYHJP_v2.0.pdf
+	HAL_Delay(40);
 
-	LCD_Send(0, 0b00000010); // Set to 4-bit operation
-	HAL_Delay(5);
-
-	// Note that we're using the font sheet on Page 29 of Appendix C on the datasheet and that I have no clue how to change this
-	LCD_Send(0, 0b00101000); // 001D NF00: D=Date Length (4 bits is low, 8 bits high), N=Number of lines, F=Font Size
-	LCD_Send(0, 0b00001100); // 0000 1DCB: D=Display, C=Cursor, B=Blink
-	LCD_Send(0, 0b00000110); // 0000 01IS: I=Increment (1) / Decrement (0), S=Shift
+	// Page 46 of this datasheet: https://cdn.sparkfun.com/assets/9/5/f/7/b/HD44780.pdf
+	// It shows a startup sequence sending 0b00000011 three times, then 0b00000010 once
+	// 0b00000011 just sets the interface to 8-bit mode, for some reason this makes it work
+	for (int i = 0; i < 3; i++) {
+		LCD_Send_4(0, 0b00000011); // Function set (Set interface to be 8 bits long)
+		HAL_Delay(1); // Wait a bit between each command
+	}
+	LCD_Send_4(0, 0b00000010); // Function set (Set interface to be 4 bits long)
+	
+	LCD_Send_8(0, 0b00101000); // 001D NF00: D=Date Length (4 bits is low, 8 bits high), N=Number of lines, F=Font Size
+	LCD_Send_8(0, 0b00001100); // 0000 1DCB: D=Display On/Off, C=Cursor, B=Blink
+	LCD_Send_8(0, 0b00000110); // 0000 01IS: I=Increment (1) / Decrement (0), S=Shift
+	
+	LCD_Clear_Display();
 }
 
-void LCD_Send(uint8_t RS_Pin_value, uint8_t data){
+// Send an 8-bit command to the display
+void LCD_Send_8(uint8_t RS_Pin_value, uint8_t data){
+	// We send the higher order bits (left most) first, then the lower order bits. So we get 4+4=8 bits total
+	// Look at the top of page 11 in the 1602A documentation for more info https://www.crystalfontz.com/products/document/964/CFAH1602XYYHJP_v2.0.pdf
+
+	LCD_Send_4(RS_Pin_value, data >> 4); // Send higher order bits first
+	LCD_Send_4(RS_Pin_value, data); // Send lower order bits second
+}
+
+// Send a 4-bit command to the display
+// Sends 4 lower order bits in data, eg. 0b0000XXXX
+void LCD_Send_4(uint8_t RS_Pin_value, uint8_t data) {
 	// Register select pin. RS=0: Command, RS=1: Data
 	// Read the documentation: https://www.crystalfontz.com/products/document/964/CFAH1602XYYHJP_v2.0.pdf
 	HAL_GPIO_WritePin(RS_GPIO_Port, RS_Pin, RS_Pin_value);
 
-	// We send the higher order bits (left most) first, then the lower order bits. So we get 4+4=8 bits total
-	// Look at the top of page 11 in the 1602A documentation for more info https://www.crystalfontz.com/products/document/964/CFAH1602XYYHJP_v2.0.pdf
-	HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, data & 0b00010000);
-	HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, data & 0b00100000);
-	HAL_GPIO_WritePin(D6_GPIO_Port, D6_Pin, data & 0b01000000);
-	HAL_GPIO_WritePin(D7_GPIO_Port, D7_Pin, data & 0b10000000);
-
-	// Pulse the E pin high then low so the microcontroller reads in the data
-	LCD_Pulse_E_Pin();
-
-	// 4 Lower order bits (right most in the byte)
+	// Send lower order bits (right most) first
 	HAL_GPIO_WritePin(D4_GPIO_Port, D4_Pin, data & 0b00000001);
 	HAL_GPIO_WritePin(D5_GPIO_Port, D5_Pin, data & 0b00000010);
 	HAL_GPIO_WritePin(D6_GPIO_Port, D6_Pin, data & 0b00000100);
@@ -43,18 +61,14 @@ void LCD_Send(uint8_t RS_Pin_value, uint8_t data){
 // We need to pulse the "Enable" pin to read the data pins
 // Operation enable signal. Falling edge triggers reading data.
 void LCD_Pulse_E_Pin() {
-	// The display reads in the values from the data pins when it detects the falling edge of the E signal
 	HAL_GPIO_WritePin(E_GPIO_Port, E_Pin, 1);
-	HAL_Delay(E_Pin_Pulse_Delay); // you could get by without this line
+	HAL_Delay(E_Pin_Pulse_Delay); // This could be a single microsecond, consult the datasheet if bothered to do so
 	HAL_GPIO_WritePin(E_GPIO_Port, E_Pin, 0);
-
-  // After testing various delays, this one was found to be necessary
-  // This makes sense because the display should only need a delay to process after the falling edge of the E signal, as this is what triggers the read
 	HAL_Delay(E_Pin_Pulse_Delay);
 }
 
 void LCD_Clear_Display() {
-    LCD_Send(0, 0b00000001);
+    LCD_Send_8(0, 0b00000001);
 }
 
 // str: The string to print, char_delay_ms: The delay between each character
@@ -99,7 +113,7 @@ void LCD_Send_Word(char *str, uint8_t size, uint32_t char_delay_ms){
 // str: The string to print, char_delay_ms: The delay between each character
 void LCD_Send_Char_Array_At_Cursor(uint8_t *arr, uint8_t size, uint32_t char_delay_ms) {
 	for (int i = 0; i < size; i++) {
-		LCD_Send(1, arr[i]);
+		LCD_Send_8(1, arr[i]);
 		HAL_Delay(char_delay_ms);
 	}
 	current_position += size;
@@ -111,9 +125,9 @@ void LCD_Set_Cursor_Pos(uint8_t pos) {
     // 0b10000000 = first line, 0b11000000 = second line
 
 	if (pos < 16) {
-		LCD_Send(0, 0b10000000 + pos);
+		LCD_Send_8(0, 0b10000000 + pos);
 	} else {
-		LCD_Send(0, 0b11000000 + pos - 16);
+		LCD_Send_8(0, 0b11000000 + pos - 16);
 	}
 }
 

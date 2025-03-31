@@ -1,6 +1,6 @@
-Core/Src/celebration.o: ../Core/Src/celebration.c \
- ../Core/Inc/celebration.h ../Core/Inc/1602alib.h ../Core/Inc/main.h \
- ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h \
+Core/Src/character_sequences.o: ../Core/Src/character_sequences.c \
+ ../Core/Inc/character_sequences.h ../Core/Inc/1602alib.h \
+ ../Core/Inc/main.h ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h \
  ../Core/Inc/stm32f0xx_hal_conf.h \
  ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h \
  ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h \
@@ -27,8 +27,8 @@ Core/Src/celebration.o: ../Core/Src/celebration.c \
  ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h \
  ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart.h \
  ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart_ex.h \
- ../Core/Inc/char_to_uint8.h ../Core/Inc/celebration.h
-../Core/Inc/celebration.h:
+ ../Core/Inc/char_to_uint8.h
+../Core/Inc/character_sequences.h:
 ../Core/Inc/1602alib.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h:
@@ -59,4 +59,3 @@ Core/Src/celebration.o: ../Core/Src/celebration.c \
 ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart.h:
 ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart_ex.h:
 ../Core/Inc/char_to_uint8.h:
-../Core/Inc/celebration.h:

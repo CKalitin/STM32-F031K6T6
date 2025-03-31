@@ -1,5 +1,5 @@
-#ifndef CHAR_TO_UINT8_H
-#define CHAR_TO_UINT8_H
+// To prevent recurrsive inclusion
+#pragma once
 
 #include <stddef.h>
 #include <stdint.h>
@@ -14,5 +14,3 @@
  * @return 1 if conversion is successful, 0 otherwise
  */
 int char_to_uint8(char c, uint8_t *result);
-
-#endif // CHAR_TO_UINT8_H

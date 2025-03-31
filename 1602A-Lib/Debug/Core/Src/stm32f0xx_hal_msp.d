@@ -27,7 +27,7 @@ Core/Src/stm32f0xx_hal_msp.o: ../Core/Src/stm32f0xx_hal_msp.c \
  ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart.h \
  ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart_ex.h \
  ../Core/Inc/1602alib.h ../Core/Inc/main.h ../Core/Inc/char_to_uint8.h \
- ../Core/Inc/celebration.h
+ ../Core/Inc/character_sequences.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h:
 ../Core/Inc/stm32f0xx_hal_conf.h:
@@ -59,4 +59,4 @@ Core/Src/stm32f0xx_hal_msp.o: ../Core/Src/stm32f0xx_hal_msp.c \
 ../Core/Inc/1602alib.h:
 ../Core/Inc/main.h:
 ../Core/Inc/char_to_uint8.h:
-../Core/Inc/celebration.h:
+../Core/Inc/character_sequences.h:
