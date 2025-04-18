@@ -13,6 +13,9 @@ https://x.com/CKalitin/status/1906411085386875316
 https://x.com/CKalitin/status/1906086305278353666  
 https://x.com/CKalitin/status/1905889097996276224  
 
+STM32 Independent Watchdog Blog Post:  
+https://ckalitin.github.io/technical/2025/03/26/stm32-rcc-register.html  
+
 I wrote a blog post on the Auto Characterization Project:  
 https://ckalitin.github.io/projects/2024/12/29/scpi-auto-characterization.html
 
