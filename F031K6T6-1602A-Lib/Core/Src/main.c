@@ -91,7 +91,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   LCD_Init();
-  Play_Debug_Sequence(&huart1);
+  //Play_Debug_Sequence(&huart1);
   Play_Celebration_Lyrics(&huart1);
   
   /* USER CODE END 2 */
